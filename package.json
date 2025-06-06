@@ -1,0 +1,27 @@
+{
+  "name": "sporttrac",
+  "version": "1.0.0",
+  "description": "SportTrac is a real-time sports tracking platform that delivers live scores, player stats, and match updates in a centralized, user-friendly hub. Designed for fans, coaches, and analysts, it offers responsive design, intuitive UI, and cross-device access, ensuring a seamless and engaging sports data experience anytime, anywhere",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "fullstack": "concurrently \"npm backend\" \"npm frontend\" ",
+    "backend": "nodemon backend/index.js",
+    "frontend": "cd frontend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "concurrently": "^9.1.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
+    "nodemon": "^3.1.10"
+  }
+}
