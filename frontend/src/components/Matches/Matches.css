@@ -1,0 +1,11 @@
+.matches {
+  padding: 20px;
+}
+
+.match {
+  background-color: #2a2a3b;
+  color: white;
+  margin: 5px 0;
+  padding: 10px;
+  text-align: center;
+}
