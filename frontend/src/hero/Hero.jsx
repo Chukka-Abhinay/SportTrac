@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import basketBallVid from './assects/basketBall.mp4'
 import footBallVid   from './assects/footBall.mp4'
 import tennisVid     from './assects/tennis.mp4'
 import './hero.css'
-const ITEM_SIZE = 100 
-const videoItems = [
-  { id: 0, video: basketBallVid, name: 'basketBall' },
+
+const ITEM_SIZE = 100
+const videoItems = [ 
+    { id: 0, video: basketBallVid, name: 'basketBall' },
   { id: 1, video: footBallVid,   name: 'footBall' },
   { id: 2, video: tennisVid,     name: 'tennis' },
   { id: 3, video: basketBallVid, name: 'basketBall' },
@@ -17,60 +18,64 @@ const videoItems = [
   { id: 9, video: basketBallVid, name: 'basketBall' },
   { id: 10, video: footBallVid,   name: 'footBall' },
   { id: 11, video: tennisVid,     name: 'tennis' },
+  { id: 20, video: basketBallVid, name: 'basketBall' },
+  { id: 21, video: footBallVid,   name: 'footBall' },
+  { id: 22, video: tennisVid,     name: 'tennis' },
+  { id: 23, video: basketBallVid, name: 'basketBall' },
+  { id: 24, video: footBallVid,   name: 'footBall' },
+  { id: 25, video: tennisVid,     name: 'tennis' },
+  { id: 26, video: basketBallVid, name: 'basketBall' },
+  { id: 27, video: footBallVid,   name: 'footBall' },
+  { id: 28, video: tennisVid,     name: 'tennis' },
+  { id: 29, video: basketBallVid, name: 'basketBall' },
+  { id: 30, video: footBallVid,   name: 'footBall' },
+  { id:31, video: tennisVid,     name: 'tennis' },
 ]
 
-const Hero = () => {
+export default function Hero() {
   const [action, setAction] = useState(0)
-  const ref = useRef(null)
-    useEffect(() => {
-  const el = ref.current;
-  if (!el) return ;
-  // Horizontal scroll on vertical mouse wheel
-  const onWheel = (e) => {
-    if (e.deltaY !== 0) {
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    }
-  };
+  const containerRef = useRef(null)
+  const scrollTimer = useRef(null)
 
-  el.addEventListener('wheel', onWheel, { passive: false });
+  const handleWheel = (e) => {
+    if (e.deltaY === 0) return
+    e.preventDefault()
+    const el = containerRef.current
+    el.scrollBy({ left: e.deltaY, behavior: 'smooth' })
+  }
 
-  // existing scroll logic
-  let timer;
-  const onScroll = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      const rect = el.getBoundingClientRect();
-      const center = rect.left + rect.width / 2;
-      const kids = Array.from(el.children);
+  const handleScroll = (e) => {
+    const el = e.currentTarget
+    clearTimeout(scrollTimer.current)
+    scrollTimer.current = setTimeout(() => {
+      const { left, width } = el.getBoundingClientRect()
+      const centerX = left + width / 2
+      const kids = Array.from(el.children)
       const idx = kids
-        .map(k => Math.abs((k.getBoundingClientRect().left + ITEM_SIZE/2) - center))
-        .reduce((minI, dist, i, arr) => dist < arr[minI] ? i : minI, 0);
-      setAction(idx);
-
-    }, 100);
-  };
-  el.addEventListener('wheel', onWheel, { passive: false });
-  el.addEventListener('scroll', onScroll);
-
-  return () => {
-    el.removeEventListener('wheel', onWheel);
-    el.removeEventListener('scroll', onScroll);
-  };
-}, []);
+        .map(k => Math.abs(k.getBoundingClientRect().left + ITEM_SIZE/2 - centerX))
+        .reduce((bestIdx, dist, i, arr) => dist < arr[bestIdx] ? i : bestIdx, 0)
+      setAction(idx)
+    }, 10)
+  }
 
   return (
-    <div className='hero-container'>
+    <div className="hero-container">
       <video
-        className='video-size'
+        key={action}
+        className="video-size"
         src={videoItems[action].video}
         autoPlay loop muted playsInline
       />
-      <div className="scroller" ref={ref}>
+      <div
+        className="scroller"
+        ref={containerRef}
+        onWheel={handleWheel}
+        onScroll={handleScroll}
+      >
         {videoItems.map(item => (
           <div
             key={item.id}
-              className={`box ${item.id === action ? 'active' : ''}`}
+            className={`box ${item.id === action ? 'active' : ''}`}
             onClick={() => setAction(item.id)}
           >
             {item.name}
@@ -80,5 +85,3 @@ const Hero = () => {
     </div>
   )
 }
-
-export default Hero

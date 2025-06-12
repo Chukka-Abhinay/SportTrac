@@ -1,69 +1,92 @@
+/* hero.css */
+
+/* Full-screen container and background video */
 .hero-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
   position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .video-size {
-  flex-shrink: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
-}
-video{
-    display: block;
-    width: 100%;
-    height: 100%;
-  object-fit: cover;
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
 }
 
+/* Highlight active video with full opacity */
+video.keyed {
+  opacity: 1;
+}
+
+/* Scroller bar at the bottom */
 .scroller {
   position: absolute;
-  bottom: 30%;         /* place your bar */
-  left: 20%; right: 20%;
-  display: flex; overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  gap: 0.5rem; padding: 0.5rem 1rem;
-  background: rgba(0,0,0,0.4);
-  border-radius: 10px; z-index: 1;
-  -webkit-overflow-scrolling: touch;
-  /* hide scrollbars cross-browser */
-  scrollbar-width: none; -ms-overflow-style: none;
-}
-.scroller::-webkit-scrollbar { display: none; }
-
-.box {
-  flex: 0 0 auto;
-  width: 80px; height: 80px;
-  scroll-snap-align: center;
-  background: #222; color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  transition: border-color .2s, transform .2s;
-}
-.scroller-overlay {
-  position: absolute;
-  bottom: 10%;
-  left: 5%;
-  right: 5%;
+  bottom: 20%;
+  left: 10%;
+  right: 10%;
   display: flex;
+  align-items: center;
   overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior:smooth;
   gap: 0.5rem;
   padding: 0.5rem;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 10px;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  z-index: 1;
+  overscroll-behavior: contain;
+  
+  /* Hide scrollbars */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  
+  overflow-y: visible;
 }
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+.scroller:hover{
+    box-shadow:lime 20px;
+}
+
+/* Individual box styling */
+.box {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
+  background: #F97316;
+  color: #99A1B3;
+  border: 2px solid #E5E7EB ;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:box-shadow 0.3s ease,  border-color 0.3s, transform 0.3s;
+}
+.box:hover{
+    color: #0F172A ;
+    background : #FFA25F;
+    box-shadow: 0 0px 10px rgba(255, 255, 255, 0.6);
+  transform: translateY(3px);
+}
+/* Highlight selected box */
 .box.active {
-  border-color: #ffffff;
-  transform: scale(1.1);
+    color: #E5E7EB ;
+    background: #D35F00;
+  border-color: #fff;
+  box-shadow: 0 0px 10px rgba(255, 255, 255, 0.7);
+  transform: scale(2), translateY(3px);
+}
+
+/* Optional fade effect on scroll */
+.scroller {
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 10px 20px -10px rgba(0, 0, 0, 0.8),
+              inset 0 -10px 20px -10px rgba(0, 0, 0, 0.8);
 }
