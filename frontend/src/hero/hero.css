@@ -24,7 +24,7 @@ video{
 
 .scroller {
   position: absolute;
-  top: 30%;         /* place your bar */
+  bottom: 30%;         /* place your bar */
   left: 20%; right: 20%;
   display: flex; overflow-x: auto;
   scroll-behavior: smooth;
@@ -58,12 +58,12 @@ video{
   gap: 0.5rem;
   padding: 0.5rem;
   background: rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
+  border-radius: 10px;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   z-index: 1;
 }
 .box.active {
-  border-color: #ffd700;
+  border-color: #ffffff;
   transform: scale(1.1);
 }
