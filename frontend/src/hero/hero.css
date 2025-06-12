@@ -48,7 +48,6 @@ video{
   border-radius: 10px;
   transition: border-color .2s, transform .2s;
 }
-
 .scroller-overlay {
   position: absolute;
   bottom: 10%;
