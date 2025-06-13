@@ -1,0 +1,10 @@
+.schedule {
+  padding: 20px;
+  text-align: center;
+}
+
+.schedule-list {
+  background-color: #2a2a3b;
+  color: white;
+  padding: 10px;
+}

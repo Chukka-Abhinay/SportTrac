@@ -1,0 +1,13 @@
+@import "tailwindcss";
+* {
+  padding: 20;
+  margin: 0;
+}
+
+.app {
+  font-family: Arial, sans-serif;
+  color: white;
+  background-color: #1e1e2f;
+  min-height: 100vh;
+  padding: 20px;
+}

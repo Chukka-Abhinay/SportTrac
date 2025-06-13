@@ -1,0 +1,22 @@
+.teams {
+  padding: 20px;
+  text-align: center;
+}
+
+.teams-list {
+  display: flex;
+  justify-content: center;
+}
+
+.teams-list button {
+  margin: 5px;
+  padding: 10px 20px;
+  background-color: #2a2a3b;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.teams-list button:hover {
+  background-color: #3b3b4c;
+}

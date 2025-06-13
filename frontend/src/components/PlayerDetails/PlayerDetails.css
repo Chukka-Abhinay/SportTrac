@@ -1,0 +1,14 @@
+.player-details {
+  padding: 20px;
+  text-align: center;
+}
+
+.details {
+  background-color: #2a2a3b;
+  color: white;
+  padding: 10px;
+}
+
+.details div {
+  margin: 5px 0;
+}
