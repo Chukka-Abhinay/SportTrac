@@ -1,6 +1,6 @@
 import React from "react";
 import "./Teams.css";
-
+import PlayerDetails from "../PlayerDetails/PlayerDetails";
 const Teams = () => (
   <div className="teams">
     <h2>Teams & Players</h2>
@@ -9,6 +9,7 @@ const Teams = () => (
         <button key={index}>{team}</button>
       ))}
     </div>
+    <PlayerDetails />
   </div>
 );
 

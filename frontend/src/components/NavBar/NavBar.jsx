@@ -38,7 +38,7 @@ const NavBar = () => {
             <a
               key={item.label}
               href={item.href}
-              className="relative font-semibold text-white hover:text-emerald-400 transition group hover:scale-110"
+              className="relative font-semibold text-white hover:text-emerald-400 transition group md:hover:scale-110"
             >
               {item.label}
               <span className="absolute left-0 bottom-0 w-full h-0.5 bg-emerald-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full"></span>
@@ -46,7 +46,7 @@ const NavBar = () => {
           ))}
           <a
             href="/login"
-            className="bg-emerald-500 text-white px-4 py-1.5 rounded-full font-semibold hover:bg-emerald-600 transition duration-300 hover:scale-110"
+            className="bg-emerald-500 text-white px-4 py-1.5 rounded-full font-semibold hover:bg-emerald-600 transition duration-300 md:hover:scale-110"
           >
             Sign in
           </a>

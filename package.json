@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "fullstack": "concurrently \"npm backend\" \"npm frontend\" ",
+    "fullstack": "concurrently \"npm run backend\" \"npm run frontend\" ",
     "backend": "nodemon backend/index.js",
     "frontend": "cd frontend && npm run dev"
   },
@@ -19,6 +19,7 @@
     "body-parser": "^2.2.0",
     "concurrently": "^9.1.2",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
