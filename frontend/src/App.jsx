@@ -6,15 +6,12 @@ import Teams from "./components/Teams/Teams.jsx";
 import PlayerDetails from "./components/PlayerDetails/PlayerDetails.jsx";
 import Schedule from "./components/Schedule/Schedule.jsx";
 import "./App.css";
+import Hero from "./hero/Hero.jsx";
 
 const App = () => (
   <div className="app">
-    <NavBar />
-    <SportsSlider></SportsSlider>
-    <Matches />
-    <Teams />
-    <PlayerDetails />
-    <Schedule />
+    <NavBar/>
+    <Hero/> 
   </div>
 );
 
