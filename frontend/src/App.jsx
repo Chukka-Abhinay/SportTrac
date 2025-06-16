@@ -7,11 +7,14 @@ import PlayerDetails from "./components/PlayerDetails/PlayerDetails.jsx";
 import Schedule from "./components/Schedule/Schedule.jsx";
 import "./App.css";
 import Hero from "./hero/Hero.jsx";
+import Scroller from "./components/PlayerDetails/scroller/Scroller.jsx";
+import Main from "./components/PlayerDetails/Main.jsx";
 
 const App = () => (
   <div className="app">
     <NavBar/>
-    <Hero/> 
+    {/* <Hero/>  */}
+    <Main/>
   </div>
 );
 

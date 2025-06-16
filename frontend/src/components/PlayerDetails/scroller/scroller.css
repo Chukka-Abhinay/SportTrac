@@ -1,0 +1,65 @@
+/* Container of the scroller */
+.scroller-root {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  right: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Scroll track */
+.scroller-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory; /* ensures snap behavior :contentReference[oaicite:1]{index=1} */
+  scroll-behavior: smooth;
+  padding: 0.5rem;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent dark background */
+  border-radius: 10px;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.scroller-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scroller items */
+.scroller-item {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
+  background: #F97316;  /* original orange */
+  color: #99A1B3;       /* light gray text */
+  border: 2px solid #E5E7EB;  /* light border */
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Hover state */
+.scroller-item:hover {
+  background: #FFA25F; /* lighter orange */
+  color: #0F172A;       /* dark gray */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Active (centered) item */
+.scroller-item.active {
+  background: #D35F00; /* deeper orange */
+  color: #E5E7EB;       /* off-white */
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transform: scale(1.1);
+}
