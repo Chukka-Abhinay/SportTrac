@@ -1,15 +1,18 @@
 /* Container of the scroller */
 .scroller-root {
-  position: absolute;
   top: 20%;
   left: 10%;
   right: 10%;
+  padding-top: 30px;
+  padding-bottom: 20px;
   display: flex;
   justify-content: center;
 }
 
 /* Scroll track */
 .scroller-track {
+  max-width: 85%;
+  margin: 0 auto;
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory; /* ensures snap behavior :contentReference[oaicite:1]{index=1} */
@@ -62,4 +65,8 @@
   border-color: #fff;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
   transform: scale(1.1);
+}
+.scroller-item:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }

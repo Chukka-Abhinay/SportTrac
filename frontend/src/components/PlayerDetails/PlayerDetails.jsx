@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './PlayerDetails.css';
 
-export default function PlayerDetails({ team }) {
-  const [player, setPlayer] = useState(team.players[0]);
-
-  useEffect(() => {
-    setPlayer(team.players[0]);
-  }, [team]);
-
-  if (!team) return null;
-
+export default function PlayerDetails({ team, player, onPlayerSelect }) {
   return (
-    <div className="player-details-container">
+    <div className="player-details-layout">
+      {/* Left: Player Profile */}
       <div className="player-profile">
-        <img src={player.avatar} alt={player.name} className="player-avatar"/>
-        <h3>{player.name}</h3>
-        <p>{player.position}</p>
+        <img src={player.avatar} alt={player.name} className="player-avatar" />
+        <h2>{player.name}</h2>
+        <p className="player-info">{player.position}</p>
+        {/* Add more info as needed */}
       </div>
-      <div className="player-list">
+
+      {/* Right: Scrollable Player List */}
+      <div className="player-list-scroll">
         {team.players.map(p => (
           <div
             key={p.id}
-            className={`player-list-item ${p.id === player.id ? 'active' : ''}`}
-            onClick={() => setPlayer(p)}
+            className={`player-name-item ${p.id === player.id ? 'active' : ''}`}
+            onClick={() => onPlayerSelect(p)}
           >
-            {p.name.toUpperCase()}
+            <span className="player-name-left">{p.name}</span>
+            <span className="player-role-right">
+              {p.position.toUpperCase()}
+            </span>
           </div>
         ))}
       </div>

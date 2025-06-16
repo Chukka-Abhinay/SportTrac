@@ -1,17 +1,34 @@
-import React, { useState } from 'react'
-import Scroller from './scroller/Scroller'
-import PlayerDetails from './PlayerDetails'
-import {teams} from './data'
+import React, { useState } from 'react';
+import { teams } from './data';
+import Scroller from './scroller/Scroller';
+import PlayerDetails from './PlayerDetails';
+
 export default function Main() {
-  const [   selectedTeam, setSelectedTeam] = useState(teams[0])
+  const [selectedTeam, setSelectedTeam] = useState(teams[0]);
+  const [selectedPlayer, setSelectedPlayer] = useState(teams[0].players[0]);
 
   return (
-    <div>
-      <h3 style={{ textAlign: "center", color: "#EAB308", margin: "4px" }}>
+    <div className="main-container">
+      <h2 style={{ textAlign: 'center', color: '#EAB308' }}>
         Teams & Players
-      </h3>
-      <Scroller onSelectTeam={setSelectedTeam} />
-      <PlayerDetails team={selectedTeam} />
+      </h2>
+
+      <div className="scroller-section">
+        <Scroller
+          items={teams}
+          selected={selectedTeam}
+          onSelectTeam={team => {
+            setSelectedTeam(team);
+            setSelectedPlayer(team.players[0]);
+          }}
+        />
+      </div>
+
+      <PlayerDetails
+        team={selectedTeam}
+        player={selectedPlayer}
+        onPlayerSelect={setSelectedPlayer}
+      />
     </div>
-  )
+  );
 }
