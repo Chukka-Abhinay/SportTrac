@@ -4,7 +4,7 @@ export const teams = [
     id: 1,
     name: "Team A",
     players: [
-      { id: 0, name: "Alice", avatar: "/avatars/alice.jpg", position: "Forward" },
+      { id: 0, name: "Alice", avatar: "https://imgs.search.brave.com/Pu3EMvdN3S3_eyjUfrHvk1eujH8pa0QeZLjutRk7P2M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93MC5w/ZWFrcHguY29tL3dh/bGxwYXBlci85NDkv/Nzc3L0hELXdhbGxw/YXBlci12aXJhdC1r/b2hsaS13aXRoLW1y/Zi1iYXQtdmlyYXQt/a29obGktbXJmLWJh/dC1jcmlja2V0ZXIt/c3BvcnRzLWtpbmct/a29obGktaW5kaWFu/LWplcnNleS10aHVt/Ym5haWwuanBn", position: "Forward" },
       { id: 1, name: "Aaron", avatar: "/avatars/aaron.jpg", position: "Guard" },
       { id: 2, name: "Amelia", avatar: "/avatars/amelia.jpg", position: "Center" },
       { id: 3, name: "Asher", avatar: "/avatars/asher.jpg", position: "Forward" },

@@ -1,41 +1,21 @@
-/* Wrapper for the full page layout */
+/* Full-page wrapper with top padding */
 .main-container {
-  padding: 60px 20px 5%; /* ✅ Top space added here */
+  margin-top: 40px;
+  border-top: 1px solid transparent;  
+  padding-top: 50px;  /* ✅ Top space */
   display: flex;
   flex-direction: column;
-  gap: 30px;              /* Increased gap between stacked sections */
-  justify-content: center;
+  gap: 20px;
   align-items: center;
   background-color: #131A2B;
   min-height: 100vh;
 }
-
-/* Section that wraps each scroller section */
+/* Scroller section wrapper */
 .scroller-section {
   width: 100%;
+  max-width: 1200px;           /* Optional max width */
 }
-
-/* Outer container for the scroller */
-.scroller-root {
-  display: flex;
-  justify-content: center;
-}
-
-/* Track for horizontal scrolling */
-.scroller-track {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  padding: 0.5rem;
-  gap: 0.75rem;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 10px;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
-}
-
-/* Optional: Hide scrollbar in all browsers */
-.scroller-track::-webkit-scrollbar {
-  display: none;
+h2 {
+  width: 100%;
+  text-align: center;
 }

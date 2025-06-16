@@ -13,7 +13,7 @@ import Main from "./components/PlayerDetails/Main.jsx";
 const App = () => (
   <div className="app">
     <NavBar/>
-    {/* <Hero/>  */}
+    <Hero/> 
     <Main/>
   </div>
 );

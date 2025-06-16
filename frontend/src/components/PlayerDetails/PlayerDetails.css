@@ -1,49 +1,65 @@
-/* Remove invalid 'top: 40%'; positioning handled by parent */
 .player-details-layout {
   display: flex;
-  gap: 20px;
-  padding: 20px;
-  background-color: #1c1c2a;
+  gap: 40px;
+  width: 100%;
+  margin-top: 40px;
+  max-width: 1200px;
+  background-color: #1C1C2A;
   border-radius: 10px;
+  padding: 20px;
   color: white;
+  box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .player-details-layout {
+    flex-direction: column;
+    align-items: center;/* Centers content when stacked */
+  }
+  .player-profile{
+    width: 70%;
+  }
+  .player-list-scroll{
+    width: 90%;
+  }
 }
 
-/* Profile panel */
+/* Left profile panel */
 .player-profile {
-  flex: 0 0 250px;           /* fixed width */
-  background-color: #2b2b3d;
+  flex: 0 0 250px;
+  background-color: #2B2B3D;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
 }
 
-/* Player avatar styling */
+/* Avatar */
 .player-avatar {
-  width: 100px;
-  height: 100px;
+  width: 70%;
+  height: 50%;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
   border: 2px solid orange;
 }
 
-/* Text info under avatar */
+/* Info text */
 .player-info {
   margin: 6px 0;
   color: #ccc;
 }
 
-/* Right-side scrollable list */
+/* Right: vertical, scrollable player list */
 .player-list-scroll {
   flex: 1;
   max-height: 400px;
   overflow-y: auto;
-  background-color: #2b2b3d;
+  background-color: #2B2B3D;
   border-radius: 12px;
   padding: 10px;
+  box-sizing: border-box;
 }
 
-/* Each player entry */
+/* Player list items */
 .player-name-item {
   display: flex;
   justify-content: space-between;
@@ -55,20 +71,17 @@
   transition: background 0.3s, color 0.3s, transform 0.3s;
 }
 
-/* Hover effect */
 .player-name-item:hover {
-  background-color: #3b3b50;
+  background-color: #3B3B50;
   transform: translateY(-2px);
 }
 
-/* Highlight selected player */
 .player-name-item.active {
   background-color: orange;
-  color: #1c1c2a;
+  color: #1C1C2A;
   font-weight: bold;
 }
 
-/* Name on left, position (caps) on right */
 .player-name-left {
   flex: 1;
   text-align: left;
