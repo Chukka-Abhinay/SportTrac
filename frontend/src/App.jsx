@@ -1,34 +1,68 @@
-import React from "react";
+import React, { useRef } from "react";
 import NavBar from "./components/NavBar/NavBar.jsx";
 import SportsSlider from "./components/Sports/SportsSlider.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Matches from "./components/Matches/Matches.jsx";
 import Teams from "./components/Teams/Teams.jsx";
-import PlayerDetails from "./components/PlayerDetails/PlayerDetails.jsx";
 import Schedule from "./components/Schedule/Schedule.jsx";
 import Register from "./components/Account/Register.jsx";
 import Login from "./components/Account/Login.jsx";
+import Leaderboard from "./components/Leaderboard/Leaderboard.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-const App = () => (
-  <div className="app">
-    <NavBar />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/login" element={<Login />}></Route>
+const App = () => {
+  const dashboardRef = useRef(null);
+  const teamsRef = useRef(null);
+  const scheduleRef = useRef(null);
+  const LeaderboardRef = useRef(null);
 
-        <Route path="/matches" element={<Matches />}></Route>
-        <Route path="/teams" element={<Teams />}></Route>
-      </Routes>
-    </BrowserRouter>
-
-    <SportsSlider></SportsSlider>
-    <Matches />
-    <Teams />
-
-    <Schedule />
-  </div>
-);
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <NavBar
+                  scrollToDashboard={() =>
+                    dashboardRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToTeams={() =>
+                    teamsRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToSchedule={() =>
+                    scheduleRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToLeaderboard={() =>
+                    LeaderboardRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                    })
+                  }
+                />
+                <SportsSlider />
+                <div ref={dashboardRef}>
+                  <Dashboard></Dashboard>
+                </div>
+                <div ref={teamsRef}>
+                  <Teams />
+                </div>
+                <div ref={scheduleRef}>
+                  <Schedule />
+                </div>
+                <div ref={LeaderboardRef}>
+                  <Leaderboard></Leaderboard>
+                </div>
+              </>
+            }
+          />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
 
 export default App;

@@ -37,7 +37,7 @@ app.post("/login", (req, res) => {
         if (String(password) === String(user.password)) {
           res.json("success");
         } else {
-          res.json("Invalid Password");
+          return res.status(400).json({ error: "Invalid credentials." });
         }
       } else {
         res.json("User doesn't exist");

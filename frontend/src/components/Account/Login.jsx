@@ -13,7 +13,7 @@ export default function Login() {
       .then((result) => {
         console.log(result);
         if (result.data === "success") {
-          navigate("/home");
+          navigate("/");
         }
       })
       .catch((err) => console.log(error));
