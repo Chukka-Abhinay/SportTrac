@@ -8,6 +8,8 @@ import Schedule from "./components/Schedule/Schedule.jsx";
 import Register from "./components/Account/Register.jsx";
 import Login from "./components/Account/Login.jsx";
 import Leaderboard from "./components/Leaderboard/Leaderboard.jsx";
+import Hero from "./hero/Hero.jsx";
+import UserPageNav from "./components/UserPage/UserPageNav.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
@@ -41,7 +43,7 @@ const App = () => {
                     })
                   }
                 />
-                <SportsSlider />
+                <Hero></Hero>
                 <div ref={dashboardRef}>
                   <Dashboard></Dashboard>
                 </div>
@@ -59,6 +61,42 @@ const App = () => {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/:username"
+            element={
+              <>
+                <UserPageNav
+                  scrollToDashboard={() =>
+                    dashboardRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToTeams={() =>
+                    teamsRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToSchedule={() =>
+                    scheduleRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  scrollToLeaderboard={() =>
+                    LeaderboardRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                    })
+                  }
+                />
+                <Hero></Hero>
+                <div ref={dashboardRef}>
+                  <Dashboard></Dashboard>
+                </div>
+                <div ref={teamsRef}>
+                  <Teams />
+                </div>
+                <div ref={scheduleRef}>
+                  <Schedule />
+                </div>
+                <div ref={LeaderboardRef}>
+                  <Leaderboard></Leaderboard>
+                </div>
+              </>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

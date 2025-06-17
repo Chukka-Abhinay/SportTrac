@@ -35,12 +35,13 @@ app.post("/login", (req, res) => {
     .then((user) => {
       if (user) {
         if (String(password) === String(user.password)) {
-          res.json("success");
+          console.log(user);
+          res.json({ success: true, username: user.name }); // Assuming `user.username` exists
         } else {
           return res.status(400).json({ error: "Invalid credentials." });
         }
       } else {
-        res.json("User doesn't exist");
+        res.json({ error: "User doesn't exist" });
       }
     })
     .catch((err) => {

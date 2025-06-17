@@ -1,0 +1,89 @@
+/* hero.css */
+@import "tailwindcss";
+/* Full-screen container and background video */
+.hero-container {
+  position: relative;
+  width: 96vw;
+  height: 98vh;
+  overflow: hidden;
+  margin-top: 15px;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.video-size {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+}
+.video-size[key] {
+  opacity: 1;
+}
+
+/* Scroller bar at the bottom */
+.scroller {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  right: 10%;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  overscroll-behavior: contain;
+
+  /* Hide scrollbars */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual box styling */
+.box {
+  scroll-snap-align: center;
+  flex: 0 0 auto;
+  width: 80px;
+  height: 80px;
+  background: #f97316;
+  color: #99a1b3;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.box:hover {
+  color: #0f172a;
+  background: #ffa25f;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Highlighted (centered) box */
+.box.active {
+  color: #e5e7eb;
+  background: #d35f00;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transform: scale(1.1) translateY(-3px);
+}
+
+/* Optional fade at both ends of the scroller */
+.scroller {
+  box-shadow: inset 0 10px 20px -10px rgba(0, 0, 0, 0.8),
+    inset 0 -10px 20px -10px rgba(0, 0, 0, 0.8);
+}

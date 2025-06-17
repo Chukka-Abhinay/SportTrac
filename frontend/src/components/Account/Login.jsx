@@ -12,11 +12,13 @@ export default function Login() {
       .post("http://localhost:3000/login", { email, password })
       .then((result) => {
         console.log(result);
-        if (result.data === "success") {
-          navigate("/");
+        if (result.data.success) {
+          navigate(`/${result.data.username}`); // Go to /username
+        } else if (result.data.error) {
+          alert(result.data.error); // optional
         }
       })
-      .catch((err) => console.log(error));
+      .catch((error) => console.log(error)); // fixed typo from "err" to "error"
   };
 
   return (
