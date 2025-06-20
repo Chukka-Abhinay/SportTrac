@@ -79,7 +79,10 @@ const UserPageNav = ({
           >
             Sign in
           </a> */}
-          <RiAccountCircleFill className="text-4xl hover:text-emerald-400 hover:scale-110 cursor-pointer" />
+          <RiAccountCircleFill
+            className="text-4xl hover:text-emerald-400 hover:scale-110 cursor-pointer"
+            onClick={() => console.log(username)}
+          />
         </div>
       </div>
     </nav>
