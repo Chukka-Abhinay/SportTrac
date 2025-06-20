@@ -12,7 +12,7 @@ import Hero from "./hero/Hero.jsx";
 import UserPageNav from "./components/UserPage/UserPageNav.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Hero from "./hero/Hero.jsx";
+
 import Scroller from "./components/PlayerDetails/scroller/Scroller.jsx";
 import Main from "./components/PlayerDetails/Main.jsx";
 
@@ -51,7 +51,7 @@ const App = () => {
                   <Dashboard></Dashboard>
                 </div>
                 <div ref={teamsRef}>
-                  <Teams />
+                  <Main />
                 </div>
                 <div ref={scheduleRef}>
                   <Schedule />
@@ -89,7 +89,7 @@ const App = () => {
                   <Dashboard></Dashboard>
                 </div>
                 <div ref={teamsRef}>
-                  <Teams />
+                  <Main />
                 </div>
                 <div ref={scheduleRef}>
                   <Schedule />
