@@ -11,3 +11,7 @@
   min-height: 100vh;
   padding: 20px;
 }
+body {
+  background-color: #1e1e2f;
+  color: white;
+}
