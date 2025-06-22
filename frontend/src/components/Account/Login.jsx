@@ -25,7 +25,7 @@ export default function Login() {
     <div className="form-container  flex items-center h-screen w-full justify-center text-white ">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="shadow-lg shadow-emerald-300 w-5/6 md:w-1/3  flex flex-col p-10 justify-between sm:w-5/6 gap-5"
+        className="shadow-lg shadow-emerald-300 w-5/6 md:w-1/3 rounded flex flex-col p-10 justify-between sm:w-5/6 gap-5"
       >
         <img src="logo.png" alt="" className="w-[100px] top-0 left-0 " />
 
