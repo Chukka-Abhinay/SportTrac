@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../../redux/api/usersApiSlice";
+import { RiAccountCircleFill } from "react-icons/ri";
+import { logout } from "../../redux/features/auth/authSlice";
 const NavBar = ({
   scrollToDashboard,
   scrollToTeams,
@@ -10,7 +13,25 @@ const NavBar = ({
 }) => {
   const { username } = useParams();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const handleClick = (scrollFn) => {
     setMenuOpen(false);
     scrollFn();
@@ -69,13 +90,119 @@ const NavBar = ({
           </button>
 
           {/* Login Button */}
-
-          <a
-            href="/login"
-            className="bg-emerald-500 text-white px-4 py-1.5 rounded-full font-semibold hover:bg-emerald-600 transition duration-300 md:hover:scale-110 text-center sm:hover:scale-102"
-          >
-            Sign in
-          </a>
+          {!userInfo && (
+            <a
+              href="/login"
+              className="bg-emerald-500 text-white px-4 py-1.5 rounded-full font-semibold hover:bg-emerald-600 transition duration-300 md:hover:scale-110 text-center sm:hover:scale-102"
+            >
+              Sign in
+            </a>
+          )}
+          <div className="relative  flex">
+            {userInfo && (
+              <RiAccountCircleFill
+                className="text-4xl hover:text-emerald-400 hover:scale-110 cursor-pointer"
+                onClick={() => console.log(username)}
+              />
+            )}
+            <button
+              onClick={toggleDropdown}
+              className="flex items-center text-gray-800 focus:outline-none pl-0.5"
+            >
+              {userInfo ? (
+                <span className="text-white">{userInfo.username}</span>
+              ) : (
+                <></>
+              )}
+              {userInfo && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 ml-1 ${
+                    dropdownOpen ? "transform rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d={dropdownOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
+                  />
+                </svg>
+              )}
+            </button>
+            {dropdownOpen && userInfo && (
+              <ul
+                className={`absolute right-0 mt-2 mr-14 space-y-2 bg-gray-300 rounded text-gray-600 ${
+                  !userInfo.isAdmin ? "top-10" : "top-8"
+                }`}
+              >
+                {userInfo.isAdmin && (
+                  <>
+                    <li>
+                      <Link
+                        to="/admin/dashboard"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/productlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Products
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/categotylist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Category
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/orderlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Orders
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/userlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Users
+                      </Link>
+                    </li>
+                  </>
+                )}
+                <li>
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/logout"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={logoutHandler}
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </nav>

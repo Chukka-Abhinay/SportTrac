@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoginMutation } from "../../redux/api/usersApiSlice";
 import { setCredentials } from "../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
+import { RxCross2 } from "react-icons/rx";
 import Loader from "../../components/Loader";
 
 const Login = () => {
@@ -18,8 +19,7 @@ const Login = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
-  const redirect =
-    sp.get("redirect") || (userInfo ? `/${userInfo.username}` : "/");
+  const redirect = sp.get("redirect") || "/";
 
   //  `${userInfo.username}` ||
   useEffect(() => {
@@ -36,10 +36,13 @@ const Login = () => {
       dispatch(setCredentials({ ...res }));
       const username = res.username;
       console.log(username);
-      navigate(`/${username}`);
+      navigate(`/`);
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
+  };
+  const handleCross = () => {
+    navigate("/");
   };
   return (
     <div>
@@ -51,7 +54,13 @@ const Login = () => {
             onSubmit={submitHandler}
             className="shadow-lg shadow-emerald-300 w-5/6 md:w-1/3  flex flex-col p-10 justify-between sm:w-5/6 gap-5"
           >
-            <img src="logo.png" alt="" className="w-[100px] top-0 left-0 " />
+            <div className="flex justify-between">
+              <img src="logo.png" alt="" className="w-[100px] top-0 left-0 " />
+              <RxCross2
+                className="bg-[#1e1e2f] rounded-full p-0.5 scale-115"
+                onClick={handleCross}
+              />
+            </div>
 
             <label
               htmlFor="email"
