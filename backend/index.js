@@ -8,7 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./config/db.js";
 
 dotenv.config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 connectDB();
 

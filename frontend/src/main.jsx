@@ -7,6 +7,8 @@ import store from "./redux/features/store.js";
 import Register from "./pages/Auth/Register.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import HomePage from "./pages/HomePage.jsx"; // New component that holds NavBar, Hero, Dashboard etc.
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import Profile from "./pages/User/Profile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +16,9 @@ const router = createBrowserRouter(
       <Route index element={<HomePage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/profile" element={<Profile></Profile>}></Route>
+      </Route>
     </Route>
   )
 );
