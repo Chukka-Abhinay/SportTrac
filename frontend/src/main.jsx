@@ -9,6 +9,8 @@ import Login from "./pages/Auth/Login.jsx";
 import HomePage from "./pages/HomePage.jsx"; // New component that holds NavBar, Hero, Dashboard etc.
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import Profile from "./pages/User/Profile.jsx";
+import AdminRoute from "./pages/Admin/AdminRoute.jsx";
+import UserList from "./pages/Admin/UserList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +20,10 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile></Profile>}></Route>
+      </Route>
+      {/* //Admin router */}
+      <Route path="/admin" element={<AdminRoute />}>
+        <Route path="userlist" element={<UserList />}></Route>
       </Route>
     </Route>
   )

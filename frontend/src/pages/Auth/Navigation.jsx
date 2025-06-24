@@ -110,7 +110,7 @@ const NavBar = ({
               className="flex items-center text-gray-800 focus:outline-none pl-0.5"
             >
               {userInfo ? (
-                <span className="text-white">{userInfo.username}</span>
+                <span className="text-white px-1">{userInfo.username}</span>
               ) : (
                 <></>
               )}
