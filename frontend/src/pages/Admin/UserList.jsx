@@ -116,13 +116,15 @@ const UserList = () => {
                     ) : (
                       <div className="flex items-center">
                         {user.username}{" "}
-                        <button
-                          onClick={() =>
-                            toggleEdit(user._id, user.username, user.email)
-                          }
-                        >
-                          <FaEdit className="ml-[1rem]"></FaEdit>
-                        </button>
+                        {!user.isAdmin && (
+                          <button
+                            onClick={() =>
+                              toggleEdit(user._id, user.username, user.email)
+                            }
+                          >
+                            <FaEdit className="ml-[1rem]"></FaEdit>
+                          </button>
+                        )}
                       </div>
                     )}
                   </td>
@@ -145,13 +147,15 @@ const UserList = () => {
                     ) : (
                       <div className="flex items-center">
                         <p>{user.email}</p>
-                        <button
-                          onClick={() =>
-                            toggleEdit(user._id, user.username, user.email)
-                          }
-                        >
-                          <FaEdit className="ml-[1rem]"></FaEdit>
-                        </button>
+                        {!user.isAdmin && (
+                          <button
+                            onClick={() =>
+                              toggleEdit(user._id, user.username, user.email)
+                            }
+                          >
+                            <FaEdit className="ml-[1rem]"></FaEdit>
+                          </button>
+                        )}
                       </div>
                     )}
                   </td>
