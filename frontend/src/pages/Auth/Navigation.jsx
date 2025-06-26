@@ -159,18 +159,18 @@ const NavBar = ({
                     </li>
                     <li>
                       <Link
-                        to="/admin/categotylist"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Category
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
                         to="/admin/orderlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Orders
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/sportlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Sports
                       </Link>
                     </li>
                     <li>
