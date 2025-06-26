@@ -7,13 +7,25 @@ import store from "./redux/features/store.js";
 import Register from "./pages/Auth/Register.jsx";
 import Login from "./pages/Auth/Login.jsx";
 import HomePage from "./pages/HomePage.jsx"; // New component that holds NavBar, Hero, Dashboard etc.
-
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import Profile from "./pages/User/Profile.jsx";
+import AdminRoute from "./pages/Admin/AdminRoute.jsx";
+import UserList from "./pages/Admin/UserList.jsx";
+import SportList from "./pages/Admin/SportList.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index element={<HomePage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/profile" element={<Profile></Profile>}></Route>
+      </Route>
+      {/* //Admin router */}
+      <Route path="/admin" element={<AdminRoute />}>
+        <Route path="userlist" element={<UserList />}></Route>
+        <Route path="sportlist" element={<SportList />} />
+      </Route>
     </Route>
   )
 );

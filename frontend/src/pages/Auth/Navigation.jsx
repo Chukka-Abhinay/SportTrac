@@ -110,7 +110,7 @@ const NavBar = ({
               className="flex items-center text-gray-800 focus:outline-none pl-0.5"
             >
               {userInfo ? (
-                <span className="text-white">{userInfo.username}</span>
+                <span className="text-white px-1">{userInfo.username}</span>
               ) : (
                 <></>
               )}
@@ -159,18 +159,18 @@ const NavBar = ({
                     </li>
                     <li>
                       <Link
-                        to="/admin/categotylist"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Category
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
                         to="/admin/orderlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Orders
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/sportlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Sports
                       </Link>
                     </li>
                     <li>
