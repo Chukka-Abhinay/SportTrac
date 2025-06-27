@@ -29,8 +29,8 @@ const HomePage = () => {
         }
       />
       <Hero />
-      <div ref={dashboardRef}>
-        <Dashboard />
+      <div className = "mt-12" ref = {dashboardRef}>
+        <Dashboard/>
       </div>
       <div ref={teamsRef}>
         <Main />
