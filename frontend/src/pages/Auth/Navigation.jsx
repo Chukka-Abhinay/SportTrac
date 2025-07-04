@@ -149,20 +149,21 @@ const NavBar = ({
                         Dashboard
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        to="/admin/productlist"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Products
-                      </Link>
-                    </li>
+
                     <li>
                       <Link
                         to="/admin/orderlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Orders
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/teamlist"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Teams
                       </Link>
                     </li>
                     <li>
