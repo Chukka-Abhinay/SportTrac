@@ -12,6 +12,10 @@ import Profile from "./pages/User/Profile.jsx";
 import AdminRoute from "./pages/Admin/AdminRoute.jsx";
 import UserList from "./pages/Admin/UserList.jsx";
 import SportList from "./pages/Admin/SportList.jsx";
+import TeamList from "./pages/Admin/TeamList.jsx";
+import TeamInfo from "./pages/Admin/TeamInfo.jsx";
+import TeamUpdate from "./pages/Admin/TeamUpdate.jsx";
+import CreateTeam from "./pages/Admin/CreateTeam.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -25,6 +29,10 @@ const router = createBrowserRouter(
       <Route path="/admin" element={<AdminRoute />}>
         <Route path="userlist" element={<UserList />}></Route>
         <Route path="sportlist" element={<SportList />} />
+        <Route path="teamlist" element={<TeamList></TeamList>}></Route>
+        <Route path="teams" element={<CreateTeam />}></Route>
+        <Route path="teams/:id" element={<TeamInfo />}></Route>
+        <Route path="teams/update/:id" element={<TeamUpdate />}></Route>
       </Route>
     </Route>
   )
