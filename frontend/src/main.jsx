@@ -17,6 +17,8 @@ import TeamInfo from "./pages/Admin/TeamInfo.jsx";
 import TeamUpdate from "./pages/Admin/TeamUpdate.jsx";
 import CreateTeam from "./pages/Admin/CreateTeam.jsx";
 import MatchList from "./pages/Admin/MatchList.jsx";
+import CreateMatch from "./pages/Admin/CreateMatch.jsx";
+import MatchUpdate from "./pages/Admin/MatchUpdate.jsx";
 // import MatchUpdate from "./pages/Admin/matchUpdate.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,7 +38,8 @@ const router = createBrowserRouter(
         <Route path="teams/:id" element={<TeamInfo />}></Route>
         <Route path="teams/update/:id" element={<TeamUpdate />}></Route>
         <Route path="matchlist" element={<MatchList />}></Route>
-        {/* <Route path="/admin/matches/:id" element={<MatchUpdate />} /> */}
+        <Route path="matches" element={<CreateMatch />}></Route>
+        <Route path="matches/:id" element={<MatchUpdate />} />
       </Route>
     </Route>
   )

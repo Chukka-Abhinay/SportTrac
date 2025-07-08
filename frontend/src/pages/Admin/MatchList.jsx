@@ -26,7 +26,7 @@ const MatchList = () => {
         <h1 className="text-2xl font-semibold text-white mb-4 pl-3">Matches</h1>
         <div className="flex flex-wrap justify-between gap-2">
           <Link
-            // to={`/admin/matches`}
+            to={`/admin/matches`}
             className="bg-emerald-500 font-semibold hover:bg-emerald-600 rounded-full   px-4 pt-1  cursor-pointer hover:scale-110 text-white "
           >
             Create Match
@@ -107,13 +107,11 @@ const MatchList = () => {
                   )}
                   <td className="px-4 py-2">{match.location}</td>
                   <td className="px-4 py-2">
-                    <td className="px-4 py-2">
-                      {moment(match.scheduledTime).format("DD MMM YYYY, HH:mm")}
-                    </td>
+                    {moment(match.scheduledTime).format("DD MMM YYYY, HH:mm")}
                   </td>
                   <td className="px-4 py-2">
                     <Link
-                      //   to={`/admin/teams/update/${team._id}`}
+                      to={`/admin/matches/${match._id}`}
                       className="bg-red-500 font-semibold hover:bg-red-600 rounded-full  my-10 px-4 py-0 cursor-pointer hover:scale-110 text-white"
                     >
                       Edit
