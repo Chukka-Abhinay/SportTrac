@@ -3,7 +3,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 
 const createSport = asyncHandler(async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, video } = req.body;
 
     if (!name) {
       return res.json({ error: "Name is required" });
@@ -15,7 +15,7 @@ const createSport = asyncHandler(async (req, res) => {
       return res.json({ error: "Already exists" });
     }
 
-    const sport = await new Sport({ name }).save();
+    const sport = await new Sport({ name, video }).save();
     res.json(sport);
   } catch (error) {
     console.log(error);
@@ -35,7 +35,7 @@ const listSport = asyncHandler(async (req, res) => {
 
 const updateSport = asyncHandler(async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, video } = req.body;
     const { sportId } = req.params;
 
     const sport = await Sport.findOne({ _id: sportId });
@@ -45,7 +45,9 @@ const updateSport = asyncHandler(async (req, res) => {
     }
 
     sport.name = name;
-
+    if (video) {
+      sport.video = video;
+    }
     const updatedSport = await sport.save();
     res.json(updatedSport);
   } catch (error) {
