@@ -71,6 +71,7 @@
   background: #ffa25f;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
   transform: translateY(-3px);
+  cursor: pointer;
 }
 
 /* Highlighted (centered) box */
