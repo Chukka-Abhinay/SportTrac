@@ -141,21 +141,21 @@ const NavBar = ({
               >
                 {userInfo.isAdmin && (
                   <>
-                    <li>
+                    {/* <li>
                       <Link
                         to="/admin/dashboard"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Dashboard
                       </Link>
-                    </li>
+                    </li> */}
 
                     <li>
                       <Link
-                        to="/admin/orderlist"
+                        to="/admin/matchlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        Orders
+                        Matches
                       </Link>
                     </li>
                     <li>

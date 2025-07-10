@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-import { SPORT_URL } from "../features/constants";
+import { SPORT_URL, UPLOAD_VIDEO_URL } from "../features/constants";
 
 export const sportApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -32,6 +32,13 @@ export const sportApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Sport"],
       keepUnusedDataFor: 5,
     }),
+    uploadVideo: builder.mutation({
+      query: (data) => ({
+        url: `${UPLOAD_VIDEO_URL}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -40,4 +47,5 @@ export const {
   useUpdateSportMutation,
   useDeleteSportMutation,
   useFetchSportsQuery,
+  useUploadVideoMutation,
 } = sportApiSlice;
