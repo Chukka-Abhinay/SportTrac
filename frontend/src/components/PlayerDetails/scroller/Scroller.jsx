@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import './Scroller.css';
+import React, { useEffect, useRef } from "react";
+import "./Scroller.css";
 
 export default function Scroller({ items, selected, onSelectTeam }) {
   const containerRef = useRef(null);
@@ -7,9 +7,9 @@ export default function Scroller({ items, selected, onSelectTeam }) {
 
   // Center the selected team in view
   useEffect(() => {
-    const idx = items.findIndex(t => t.id === selected.id);
+    const idx = items.findIndex((t) => t.id === selected.id);
     const el = itemRefs.current[idx];
-    el?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    el?.scrollIntoView({ behavior: "smooth", inline: "center" });
   }, [selected, items]);
 
   return (
@@ -17,21 +17,23 @@ export default function Scroller({ items, selected, onSelectTeam }) {
       <div
         className="scroller-track"
         ref={containerRef}
-        onWheel={e => {
+        onWheel={(e) => {
           if (e.deltaY !== 0) {
             e.preventDefault();
             containerRef.current.scrollBy({
               left: e.deltaY * 0.8,
-              behavior: 'smooth',
+              behavior: "smooth",
             });
           }
         }}
       >
         {items.map((team, idx) => (
           <div
-            key={team.id}
-            ref={el => itemRefs.current[idx] = el}
-            className={`scroller-item ${team.id === selected.id ? 'active' : ''}`}
+            key={team._id}
+            ref={(el) => (itemRefs.current[idx] = el)}
+            className={`scroller-item ${
+              team._id === selected._id ? "active" : ""
+            }`}
             onClick={() => onSelectTeam(team)}
           >
             {team.name}

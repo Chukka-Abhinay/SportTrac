@@ -1,5 +1,5 @@
-import React from 'react';
-import './PlayerDetails.css';
+import React from "react";
+import "./PlayerDetails.css";
 
 export default function PlayerDetails({ team, player, onPlayerSelect }) {
   return (
@@ -14,10 +14,12 @@ export default function PlayerDetails({ team, player, onPlayerSelect }) {
 
       {/* Right: Scrollable Player List */}
       <div className="player-list-scroll">
-        {team.players.map(p => (
+        {team.players.map((p) => (
           <div
-            key={p.id}
-            className={`player-name-item ${p.id === player.id ? 'active' : ''}`}
+            key={p._id}
+            className={`player-name-item ${
+              p._id === player._id ? "active" : ""
+            }`}
             onClick={() => onPlayerSelect(p)}
           >
             <span className="player-name-left">{p.name}</span>
