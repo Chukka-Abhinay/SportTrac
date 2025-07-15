@@ -110,7 +110,7 @@ const NavBar = ({
               className="flex items-center text-gray-800 focus:outline-none pl-0.5"
             >
               {userInfo ? (
-                <span className="text-white">{userInfo.username}</span>
+                <span className="text-white px-1">{userInfo.username}</span>
               ) : (
                 <></>
               )}
@@ -141,36 +141,37 @@ const NavBar = ({
               >
                 {userInfo.isAdmin && (
                   <>
-                    <li>
+                    {/* <li>
                       <Link
                         to="/admin/dashboard"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
                         Dashboard
                       </Link>
-                    </li>
+                    </li> */}
+
                     <li>
                       <Link
-                        to="/admin/productlist"
+                        to="/admin/matchlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        Products
+                        Matches
                       </Link>
                     </li>
                     <li>
                       <Link
-                        to="/admin/categotylist"
+                        to="/admin/teamlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        Category
+                        Teams
                       </Link>
                     </li>
                     <li>
                       <Link
-                        to="/admin/orderlist"
+                        to="/admin/sportlist"
                         className="block px-4 py-2 hover:bg-gray-100"
                       >
-                        Orders
+                        Sports
                       </Link>
                     </li>
                     <li>
