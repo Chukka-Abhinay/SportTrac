@@ -5,9 +5,9 @@ export default function Scroller({ items, selected, onSelectTeam }) {
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
 
-  // Center the selected team in view
   useEffect(() => {
-    const idx = items.findIndex((t) => t.id === selected.id);
+    if (!selected || !items.length) return;
+    const idx = items.findIndex((t) => t._id === selected._id);
     const el = itemRefs.current[idx];
     el?.scrollIntoView({ behavior: "smooth", inline: "center" });
   }, [selected, items]);
@@ -32,7 +32,7 @@ export default function Scroller({ items, selected, onSelectTeam }) {
             key={team._id}
             ref={(el) => (itemRefs.current[idx] = el)}
             className={`scroller-item ${
-              team._id === selected._id ? "active" : ""
+              selected && team._id === selected._id ? "active" : ""
             }`}
             onClick={() => onSelectTeam(team)}
           >

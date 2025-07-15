@@ -4,7 +4,7 @@
   width: 100%;
   margin-top: 40px;
   max-width: 1200px;
-  background-color: #1C1C2A;
+  background-color: #1c1c2a;
   border-radius: 10px;
   padding: 20px;
   color: white;
@@ -13,12 +13,12 @@
 @media (max-width: 600px) {
   .player-details-layout {
     flex-direction: column;
-    align-items: center;/* Centers content when stacked */
+    align-items: center; /* Centers content when stacked */
   }
-  .player-profile{
+  .player-profile {
     width: 70%;
   }
-  .player-list-scroll{
+  .player-list-scroll {
     width: 90%;
   }
 }
@@ -26,7 +26,7 @@
 /* Left profile panel */
 .player-profile {
   flex: 0 0 250px;
-  background-color: #2B2B3D;
+  background-color: #2b2b3d;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
@@ -55,7 +55,7 @@
   flex: 1;
   max-height: 400px;
   overflow-y: auto;
-  background-color: #2B2B3D;
+  background-color: #2b2b3d;
   border-radius: 12px;
   padding: 10px;
   box-sizing: border-box;
@@ -74,13 +74,13 @@
 }
 
 .player-name-item:hover {
-  background-color: #3B3B50;
+  background-color: #3b3b50;
   transform: translateY(-2px);
 }
 
 .player-name-item.active {
   background-color: orange;
-  color: #1C1C2A;
+  color: #1c1c2a;
   font-weight: bold;
 }
 
