@@ -35,19 +35,34 @@ export default function Hero() {
       setSelectedSport(videoItems[idx]); // ← globally update selected sport
     }, 10);
   };
-  useEffect(() => {
-    // Sync selected sport whenever action or data changes
-    if (videoItems.length && videoItems[action]) {
-      setSelectedSport(videoItems[action]);
-    }
-  }, [action, videoItems]);
+  // useEffect(() => {
+  //   // Sync selected sport whenever action or data changes
+  //   if (videoItems.length && videoItems[action]) {
+  //     setSelectedSport(videoItems[action]);
+  //   }
+  // }, [action, videoItems]);
 
   useEffect(() => {
-    // Initialize only once if not already set
-    if (videoItems.length && !selectedSport) {
-      setSelectedSport(videoItems[0]);
+    if (videoItems.length && selectedSport) {
+      const index = videoItems.findIndex(
+        (item) => item._id === selectedSport._id
+      );
+      if (index !== -1 && index !== action) {
+        setAction(index);
+      }
     }
-  }, [videoItems]);
+  }, [videoItems, selectedSport]);
+
+  useEffect(() => {
+    // ✅ Fix: only set if nothing is in localStorage (first-time only)
+    if (videoItems.length && !selectedSport) {
+      const stored = localStorage.getItem("selectedSport");
+      if (!stored) {
+        setSelectedSport(videoItems[0]); // only first time ever
+      }
+    }
+  }, [videoItems, selectedSport]);
+
   // console.log(selectedSport);
   if (isLoading) return <Loader />;
   if (isError || !videoItems.length) return <div>No videos found.</div>;
