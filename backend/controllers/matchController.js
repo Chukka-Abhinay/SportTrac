@@ -28,8 +28,11 @@ const createMatch = asyncHandler(async (req, res) => {
 const getAllMatches = asyncHandler(async (req, res) => {
   try {
     const matches = await Match.find()
-      .populate("teamA teamB sport")
-      .sort({ scheduledTime: 1 });
+    .populate("sport", "name")
+    .populate("teamA", "name logo")
+    .populate("teamB", "name logo")
+    .sort({ scheduledTime: 1 });
+
 
     // Include virtual status manually in response
     const matchesWithStatus = matches.map((match) => ({
