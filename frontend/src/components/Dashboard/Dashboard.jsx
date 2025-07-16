@@ -25,9 +25,14 @@ const Dashboard = ({ selectedSport }) => {
 
   // ✅ Organize matches on load from API
   useEffect(() => {
-    if (apiMatches && apiMatches.length > 0) {
+    if (
+      apiMatches &&
+      apiMatches.length > 0 &&
+      selectedSport &&
+      selectedSport.name
+    ) {
       const sportMatches = apiMatches.filter(
-        (m) => m.sport?.name === selectedSport
+        (m) => m.sport?.name === selectedSport.name
       );
 
       const categorized = sportMatches.map((m) => ({
@@ -80,7 +85,12 @@ const Dashboard = ({ selectedSport }) => {
     console.log("🧲 Setting up socket listener for matchUpdated");
     const handleMatchUpdate = (updatedMatch) => {
       console.log("🔥 Received real-time update for match:", updatedMatch);
-      if (updatedMatch?.sport?.name !== selectedSport) return;
+
+      if (
+        !selectedSport?.name ||
+        updatedMatch?.sport?.name !== selectedSport.name
+      )
+        return;
 
       const updatedStatus = getMatchType(updatedMatch);
 
@@ -121,7 +131,10 @@ const Dashboard = ({ selectedSport }) => {
       });
 
       if (selectedMatch && selectedMatch._id === updatedMatch._id) {
-        setSelectedMatch({ ...updatedMatch, status: updatedStatus });
+        setSelectedMatch({
+          ...updatedMatch,
+          status: updatedStatus,
+        });
       }
     };
 
@@ -139,7 +152,7 @@ const Dashboard = ({ selectedSport }) => {
   return (
     <div className="w-full bg-[#0f1125] rounded-xl px-6 pt-3 pb-6 mt-5">
       <h2 className="text-white text-[18px] pl-55 ml-[220px] mb-5 pb-3">
-        Dashboard - {selectedSport}
+        Dashboard - {selectedSport?.name || "No Sport"}
       </h2>
 
       <div className="flex gap-6 h-full">
