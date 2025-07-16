@@ -34,7 +34,7 @@ const AdminMenu = () => {
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/dashboard"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "emerald" : "white",
                 })}
               >
                 Admin Dashboard
@@ -45,7 +45,7 @@ const AdminMenu = () => {
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/sportlist"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "green" : "white",
                 })}
               >
                 Create Sport
@@ -56,7 +56,7 @@ const AdminMenu = () => {
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/teams"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "green" : "white",
                 })}
               >
                 Create Team
@@ -65,9 +65,20 @@ const AdminMenu = () => {
             <li>
               <NavLink
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                to="/admin/matches"
+                style={({ isActive }) => ({
+                  color: isActive ? "green" : "white",
+                })}
+              >
+                Create Match
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/teamlist"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "green" : "white",
                 })}
               >
                 All Teams
@@ -78,29 +89,19 @@ const AdminMenu = () => {
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/matchlist"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "green" : "white",
                 })}
               >
                 All Matches
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
-                to="/admin/matches"
-                style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
-                })}
-              >
-                Create Match
-              </NavLink>
-            </li>
+
             <li>
               <NavLink
                 className="list-item py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
                 to="/admin/userlist"
                 style={({ isActive }) => ({
-                  color: isActive ? "greenyellow" : "white",
+                  color: isActive ? "green" : "white",
                 })}
               >
                 Manage Users
