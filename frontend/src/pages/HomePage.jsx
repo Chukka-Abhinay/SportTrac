@@ -6,7 +6,8 @@ import Main from "../components/PlayerDetails/Main.jsx";
 import Schedule from "../components/Schedule/Schedule.jsx";
 import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
 import { useSport } from "../Context/SportContext";
-
+import { useSelector } from "react-redux";
+import AdminMenu from "./Admin/AdminMenu.jsx";
 const HomePage = () => {
   const { selectedSport } = useSport();
 
@@ -44,7 +45,7 @@ const HomePage = () => {
       <div ref={LeaderboardRef}>
         <Leaderboard />
       </div>
-      {userInfo.isAdmin && <AdminMenu />}
+      {userInfo?.isAdmin && <AdminMenu />}
     </>
   );
 };
