@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { useFetchSportsQuery } from "../redux/api/sportApiSlice";
 import "./hero.css";
 import Loader from "../components/Loader";
-
-const ITEM_SIZE = 100;
-
+import { useSport } from "../Context/SportContext";
 export default function Hero() {
   const { data: videoItems = [], isLoading, isError } = useFetchSportsQuery();
+  const { selectedSport, setSelectedSport } = useSport(); // ← access global setter
+
   const [action, setAction] = useState(0);
   const containerRef = useRef(null);
   const scrollTimer = useRef(null);
@@ -14,17 +14,15 @@ export default function Hero() {
   const handleWheel = (e) => {
     if (e.deltaY === 0) return;
     e.preventDefault();
-    const el = containerRef.current;
-    el.scrollBy({ left: e.deltaY, behavior: "smooth" });
+    containerRef.current.scrollBy({ left: e.deltaY, behavior: "smooth" });
   };
 
   const handleScroll = (e) => {
-    const el = e.currentTarget;
     clearTimeout(scrollTimer.current);
     scrollTimer.current = setTimeout(() => {
-      const { left, width } = el.getBoundingClientRect();
+      const { left, width } = e.currentTarget.getBoundingClientRect();
       const centerX = left + width / 2;
-      const kids = Array.from(el.children);
+      const kids = Array.from(e.currentTarget.children);
       const idx = kids
         .map((k) =>
           Math.abs(k.getBoundingClientRect().left + ITEM_SIZE / 2 - centerX)
@@ -34,15 +32,38 @@ export default function Hero() {
           0
         );
       setAction(idx);
+      setSelectedSport(videoItems[idx]); // ← globally update selected sport
     }, 10);
   };
+  // useEffect(() => {
+  //   // Sync selected sport whenever action or data changes
+  //   if (videoItems.length && videoItems[action]) {
+  //     setSelectedSport(videoItems[action]);
+  //   }
+  // }, [action, videoItems]);
 
   useEffect(() => {
-    if (videoItems[action]) {
-      console.log("Selected Sport ID:", videoItems[action]._id);
+    if (videoItems.length && selectedSport) {
+      const index = videoItems.findIndex(
+        (item) => item._id === selectedSport._id
+      );
+      if (index !== -1 && index !== action) {
+        setAction(index);
+      }
     }
-  }, [action, videoItems]);
+  }, [videoItems, selectedSport]);
 
+  useEffect(() => {
+    // ✅ Fix: only set if nothing is in localStorage (first-time only)
+    if (videoItems.length && !selectedSport) {
+      const stored = localStorage.getItem("selectedSport");
+      if (!stored) {
+        setSelectedSport(videoItems[0]); // only first time ever
+      }
+    }
+  }, [videoItems, selectedSport]);
+
+  // console.log(selectedSport);
   if (isLoading) return <Loader />;
   if (isError || !videoItems.length) return <div>No videos found.</div>;
 
@@ -67,7 +88,10 @@ export default function Hero() {
           <div
             key={item._id}
             className={`box ${index === action ? "active" : ""}`}
-            onClick={() => setAction(index)}
+            onClick={() => {
+              setAction(index);
+              setSelectedSport(item); // ← also update on click
+            }}
           >
             {item.name}
           </div>

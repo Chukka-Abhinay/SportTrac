@@ -1,19 +1,19 @@
 /* Full-page wrapper with top padding */
 .main-container {
   margin-top: 40px;
-  border-top: 1px solid transparent;  
-  padding-top: 50px;  /* ✅ Top space */
+  border-top: 1px solid transparent;
+  padding-top: 50px; /* ✅ Top space */
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  background-color: #131A2B;
+  background-color: #131a2b;
   min-height: 100vh;
 }
 /* Scroller section wrapper */
 .scroller-section {
   width: 100%;
-  max-width: 1200px;           /* Optional max width */
+  max-width: 1200px; /* Optional max width */
 }
 h2 {
   width: 100%;

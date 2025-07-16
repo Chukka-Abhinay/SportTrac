@@ -4,45 +4,43 @@ import Scroller from "./scroller/Scroller";
 import PlayerDetails from "./PlayerDetails";
 import Loader from "../Loader";
 import "./main.css";
+import { useSport } from "../../Context/SportContext";
 
 export default function Main() {
-  const [selectedSport, setSelectedSport] = useState(
-    "6866cb58d26fa140d14e9eca"
-  );
-  const {
-    data: allteams = [],
-    refetch,
-    isLoading,
-    isError,
-  } = useAllTeamsQuery();
+  const { selectedSport } = useSport();
+  const { data: allteams = [], isLoading, isError } = useAllTeamsQuery();
 
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
-  const teams = allteams?.filter((t) => t.sport._id === selectedSport);
+  const filteredTeams = allteams.filter(
+    (t) => t?.sport?._id === selectedSport?._id
+  );
 
-  // Only log when allteams is updated
   useEffect(() => {
-    console.log("Fetched teams:", allteams);
+    if (!selectedSport) return;
 
-    if (teams && teams.length > 0) {
-      setSelectedTeam(teams[0]);
-      setSelectedPlayer(teams[0].players?.[0] || null);
-      refetch();
+    if (filteredTeams.length > 0) {
+      setSelectedTeam(filteredTeams[0]);
+      setSelectedPlayer(filteredTeams[0].players?.[0] || null);
+    } else {
+      setSelectedTeam(null);
+      setSelectedPlayer(null);
     }
-  }, [allteams, selectedSport]);
+  }, [selectedSport, allteams]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !selectedSport) return <Loader />;
   if (isError) return <div>Error Loading Teams</div>;
-  if (!selectedTeam || !selectedPlayer)
-    return <div>No teams or players available</div>;
+  if (!filteredTeams.length)
+    return <div>No teams available for this sport.</div>;
+  if (!selectedTeam) return <div>No team selected.</div>;
 
   return (
     <div className="main-container">
       <h2>Teams & Players</h2>
       <div className="scroller-section">
         <Scroller
-          items={teams}
+          items={filteredTeams}
           selected={selectedTeam}
           onSelectTeam={(team) => {
             setSelectedTeam(team);

@@ -2,15 +2,26 @@ import React from "react";
 import "./PlayerDetails.css";
 
 export default function PlayerDetails({ team, player, onPlayerSelect }) {
+  if (!team.players.length) {
+    return (
+      <div className="player-details-layout">No players in this team.</div>
+    );
+  }
+
   return (
     <div className="player-details-layout">
       {/* Left: Player Profile */}
-      <div className="player-profile">
-        <img src={player.avatar} alt={player.name} className="player-avatar" />
-        <h2>{player.name}</h2>
-        <p className="player-info">{player.position}</p>
-        {/* Add more info as needed */}
-      </div>
+      {player && (
+        <div className="player-profile">
+          <img
+            src={player.avatar}
+            alt={player.name}
+            className="player-avatar"
+          />
+          <h2>{player.name}</h2>
+          <p className="player-info">{player.position}</p>
+        </div>
+      )}
 
       {/* Right: Scrollable Player List */}
       <div className="player-list-scroll">
@@ -18,7 +29,7 @@ export default function PlayerDetails({ team, player, onPlayerSelect }) {
           <div
             key={p._id}
             className={`player-name-item ${
-              p._id === player._id ? "active" : ""
+              player && p._id === player._id ? "active" : ""
             }`}
             onClick={() => onPlayerSelect(p)}
           >

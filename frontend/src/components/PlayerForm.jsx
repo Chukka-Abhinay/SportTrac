@@ -1,15 +1,43 @@
 const PlayerForm = ({
   player,
   setPlayer,
+  avatar,
+  setAvatar,
   handleSubmit,
   buttonText = "Add Player",
   handleDelete,
+  uploadFileHandler,
 }) => {
   return (
     <form
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 text-white items-center p-4"
     >
+      {avatar && (
+        <div className="text-center mb-6 items-center pl-[40%] pt-10">
+          <img
+            src={avatar}
+            alt="Player Avatar"
+            className="block mx-auto w-[200px] h-[200px] object-contain rounded"
+          />
+        </div>
+      )}
+
+      <label className="text-white py-2 px-4 block w-full text-center rounded-lg cursor-pointer font-bold">
+        {avatar ? `Uploaded Video: ${avatar.split("/").pop()}` : ""}
+        <br />
+        <div>
+          <span className="border bg-gray-700 rounded px-2 mt-2 inline-block">
+            Upload Player Avatar
+          </span>
+        </div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={uploadFileHandler}
+          className="hidden"
+        />
+      </label>
       <input
         type="text"
         placeholder="Name"
