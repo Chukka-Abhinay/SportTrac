@@ -20,6 +20,7 @@ import MatchList from "./pages/Admin/MatchList.jsx";
 import CreateMatch from "./pages/Admin/CreateMatch.jsx";
 import MatchUpdate from "./pages/Admin/MatchUpdate.jsx";
 // import MatchUpdate from "./pages/Admin/matchUpdate.jsx";
+import { SportProvider } from "./Context/SportContext.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -47,6 +48,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <SportProvider>
+      <RouterProvider router={router} />
+    </SportProvider>
   </Provider>
 );
