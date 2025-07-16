@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import NavBar from "../pages/Auth/Navigation.jsx";
 import Dashboard from "../components/Dashboard/Dashboard.jsx";
 import Hero from "../hero/Hero.jsx";
@@ -8,6 +8,8 @@ import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
 import { useSelector } from "react-redux";
 import AdminMenu from "./Admin/AdminMenu.jsx";
 const HomePage = () => {
+  const [selectedSport, setSelectedSport] = useState("Athletics");
+
   const dashboardRef = useRef(null);
   const teamsRef = useRef(null);
   const scheduleRef = useRef(null);
@@ -29,9 +31,9 @@ const HomePage = () => {
           LeaderboardRef.current?.scrollIntoView({ behavior: "smooth" })
         }
       />
-      <Hero />
-      <div ref={dashboardRef}>
-        <Dashboard />
+      <Hero selectedSport={selectedSport} setSelectedSport={setSelectedSport} />
+      <div className="mt-40" ref={dashboardRef}>
+        <Dashboard selectedSport={selectedSport} />
       </div>
       <div ref={teamsRef}>
         <Main />

@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSport } from "../Context/SportContext";
 import { useFetchSportsQuery } from "../redux/api/sportApiSlice";
 import "./hero.css";
 import Loader from "../components/Loader";
-import { useSport } from "../Context/SportContext";
+
+const ITEM_SIZE = 100;
+
 export default function Hero() {
   const { data: videoItems = [], isLoading, isError } = useFetchSportsQuery();
-  const { selectedSport, setSelectedSport } = useSport(); // ← access global setter
+  const { selectedSport, setSelectedSport } = useSport();
 
   const [action, setAction] = useState(0);
   const containerRef = useRef(null);
@@ -32,16 +35,11 @@ export default function Hero() {
           0
         );
       setAction(idx);
-      setSelectedSport(videoItems[idx]); // ← globally update selected sport
+      setSelectedSport(videoItems[idx]); // globally update selected sport
     }, 10);
   };
-  // useEffect(() => {
-  //   // Sync selected sport whenever action or data changes
-  //   if (videoItems.length && videoItems[action]) {
-  //     setSelectedSport(videoItems[action]);
-  //   }
-  // }, [action, videoItems]);
 
+  // When selectedSport changes (e.g. from elsewhere), update `action` index
   useEffect(() => {
     if (videoItems.length && selectedSport) {
       const index = videoItems.findIndex(
@@ -53,31 +51,34 @@ export default function Hero() {
     }
   }, [videoItems, selectedSport]);
 
+  // On initial load, set the selected sport if not already stored
   useEffect(() => {
-    // ✅ Fix: only set if nothing is in localStorage (first-time only)
     if (videoItems.length && !selectedSport) {
       const stored = localStorage.getItem("selectedSport");
       if (!stored) {
-        setSelectedSport(videoItems[0]); // only first time ever
+        setSelectedSport(videoItems[0]);
       }
     }
   }, [videoItems, selectedSport]);
 
-  // console.log(selectedSport);
   if (isLoading) return <Loader />;
   if (isError || !videoItems.length) return <div>No videos found.</div>;
 
+  const currentVideo = videoItems[action]?.video?.replace(/\\/g, "/") || null;
+
   return (
     <div className="hero-container">
-      <video
-        key={videoItems[action]?._id}
-        className="video-size"
-        src={videoItems[action]?.video?.replace(/\\/g, "/")}
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      {currentVideo && (
+        <video
+          key={videoItems[action]?._id}
+          className="video-size"
+          src={currentVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      )}
       <div
         className="scroller"
         ref={containerRef}
@@ -90,7 +91,7 @@ export default function Hero() {
             className={`box ${index === action ? "active" : ""}`}
             onClick={() => {
               setAction(index);
-              setSelectedSport(item); // ← also update on click
+              setSelectedSport(item); // update on click
             }}
           >
             {item.name}
