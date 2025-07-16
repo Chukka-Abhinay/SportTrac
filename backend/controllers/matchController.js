@@ -6,6 +6,7 @@ import Match from "../models/Match.js";
 const createMatch = asyncHandler(async (req, res) => {
   try {
     const { teamA, teamB, sport, location, scheduledTime } = req.fields;
+
     switch (true) {
       case !teamA || !teamB || teamA === "undefined" || teamB === "undefined":
         return res.json({ error: "Team is required or invalid" });
@@ -65,10 +66,8 @@ const getMatchById = asyncHandler(async (req, res) => {
 
 const updateMatchById = asyncHandler(async (req, res) => {
   try {
-    const { teamA, teamB, sport, location, scheduledTime, duration } =
-      req.fields;
+    const { teamA, teamB, sport, location, scheduledTime, duration } = req.fields;
 
-    // ✅ Manually extract and convert score values
     const scoreTeamA = Number(req.fields["score[teamA]"]);
     const scoreTeamB = Number(req.fields["score[teamB]"]);
 
@@ -77,7 +76,6 @@ const updateMatchById = asyncHandler(async (req, res) => {
       teamB: isNaN(scoreTeamB) ? 0 : scoreTeamB,
     };
 
-    // Validate required fields
     switch (true) {
       case !teamA || !teamB || teamA === "undefined" || teamB === "undefined":
         return res.json({ error: "Team is required or invalid" });
@@ -89,7 +87,6 @@ const updateMatchById = asyncHandler(async (req, res) => {
         return res.json({ error: "Scheduled Time is required" });
     }
 
-    // ✅ Use update object manually instead of spreading `req.fields`
     const match = await Match.findByIdAndUpdate(
       req.params.id,
       {
@@ -102,7 +99,13 @@ const updateMatchById = asyncHandler(async (req, res) => {
         score,
       },
       { new: true }
-    );
+    ).populate("teamA teamB sport");
+
+    // ✅ Emit real-time update
+    // const io = req.app.get("io");
+    console.log("Emmitting matchUpdated :", match._id);
+    // io.emit("matchUpdated", match)
+    req.io?.emit("matchUpdated", match)
 
     res.json(match);
   } catch (error) {
@@ -110,7 +113,6 @@ const updateMatchById = asyncHandler(async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
 const deleteMatchById = asyncHandler(async (req, res) => {
   try {
     const match = await Match.findByIdAndDelete(req.params.id);

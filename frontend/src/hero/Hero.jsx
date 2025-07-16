@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 
 const ITEM_SIZE = 100;
 
-export default function Hero() {
+export default function Hero({ selectedSport, setSelectedSport }) {
   const { data: videoItems = [], isLoading, isError } = useFetchSportsQuery();
   const [action, setAction] = useState(0);
   const containerRef = useRef(null);
@@ -39,24 +39,29 @@ export default function Hero() {
 
   useEffect(() => {
     if (videoItems[action]) {
-      console.log("Selected Sport ID:", videoItems[action]._id);
+      setSelectedSport(videoItems[action].name);
     }
-  }, [action, videoItems]);
+  }, [action, videoItems, setSelectedSport]);
 
   if (isLoading) return <Loader />;
   if (isError || !videoItems.length) return <div>No videos found.</div>;
 
+  const currentVideo =
+    videoItems[action]?.video?.replace(/\\/g, "/") || null;
+
   return (
     <div className="hero-container">
-      <video
-        key={videoItems[action]?._id}
-        className="video-size"
-        src={videoItems[action]?.video?.replace(/\\/g, "/")}
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      {currentVideo && (
+        <video
+          key={videoItems[action]?._id}
+          className="video-size"
+          src={currentVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      )}
       <div
         className="scroller"
         ref={containerRef}
@@ -67,7 +72,10 @@ export default function Hero() {
           <div
             key={item._id}
             className={`box ${index === action ? "active" : ""}`}
-            onClick={() => setAction(index)}
+            onClick={() => {
+              setAction(index);
+              setSelectedSport(item.name);
+            }}
           >
             {item.name}
           </div>
