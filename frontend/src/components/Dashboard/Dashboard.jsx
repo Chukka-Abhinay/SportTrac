@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import MatchDisplay from './MatchDisplay';
-import MatchSidebar from './MatchSidebar';
-import socket from '../../socket.js';
-import { useGetAllMatchesQuery } from '../../redux/api/matchApiSlice';
+import React, { useState, useEffect } from "react";
+import MatchDisplay from "./MatchDisplay";
+import MatchSidebar from "./MatchSidebar";
+import socket from "../../socket.js";
+import { useGetAllMatchesQuery } from "../../redux/api/matchApiSlice";
 
 const getMatchType = (match) => {
   const now = new Date();
@@ -11,15 +11,15 @@ const getMatchType = (match) => {
     ? new Date(start.getTime() + match.duration * 60000)
     : null;
 
-  if (end && now > end) return 'Previous Match';
-  if (now >= start && (!end || now <= end)) return 'Current Match';
-  if (now < start) return 'Upcoming Match';
+  if (end && now > end) return "Previous Match";
+  if (now >= start && (!end || now <= end)) return "Current Match";
+  if (now < start) return "Upcoming Match";
   return null;
 };
 
 const Dashboard = ({ selectedSport }) => {
   const { data: apiMatches, isLoading, isError } = useGetAllMatchesQuery();
-
+  console.log(apiMatches);
   const [orderedMatches, setOrderedMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
 
@@ -35,21 +35,32 @@ const Dashboard = ({ selectedSport }) => {
         status: getMatchType(m),
       }));
 
-      const previous = categorized.filter((m) => m.status === 'Previous Match');
-      const current = categorized.filter((m) => m.status === 'Current Match');
-      const upcoming = categorized.filter((m) => m.status === 'Upcoming Match');
+      const previous = categorized.filter((m) => m.status === "Previous Match");
+      const current = categorized.filter((m) => m.status === "Current Match");
+      const upcoming = categorized.filter((m) => m.status === "Upcoming Match");
 
-      const previousMatch =
-        previous.at(-1) ?? { id: 'previous', status: 'Previous Match', isEmpty: true };
-      const currentMatch =
-        current[0] ?? { id: 'current', status: 'Current Match', isEmpty: true };
-      const upcomingMatch =
-        upcoming[0] ?? { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
+      const previousMatch = previous.at(-1) ?? {
+        id: "previous",
+        status: "Previous Match",
+        isEmpty: true,
+      };
+      const currentMatch = current[0] ?? {
+        id: "current",
+        status: "Current Match",
+        isEmpty: true,
+      };
+      const upcomingMatch = upcoming[0] ?? {
+        id: "upcoming",
+        status: "Upcoming Match",
+        isEmpty: true,
+      };
 
       const ordered = [previousMatch, currentMatch, upcomingMatch];
       setOrderedMatches(ordered);
 
-      setSelectedMatch(current[0] ?? previous.at(-1) ?? upcoming[0] ?? currentMatch);
+      setSelectedMatch(
+        current[0] ?? previous.at(-1) ?? upcoming[0] ?? currentMatch
+      );
     }
   }, [apiMatches, selectedSport]);
 
@@ -74,7 +85,7 @@ const Dashboard = ({ selectedSport }) => {
       const updatedStatus = getMatchType(updatedMatch);
 
       setOrderedMatches((prevMatches) => {
-        const matchesWithoutDummy = prevMatches.filter(m => !m.isEmpty);
+        const matchesWithoutDummy = prevMatches.filter((m) => !m.isEmpty);
 
         const updatedList = matchesWithoutDummy.map((m) =>
           m._id === updatedMatch._id
@@ -82,16 +93,29 @@ const Dashboard = ({ selectedSport }) => {
             : m
         );
 
-        const previous = updatedList.filter((m) => m.status === 'Previous Match');
-        const current = updatedList.filter((m) => m.status === 'Current Match');
-        const upcoming = updatedList.filter((m) => m.status === 'Upcoming Match');
+        const previous = updatedList.filter(
+          (m) => m.status === "Previous Match"
+        );
+        const current = updatedList.filter((m) => m.status === "Current Match");
+        const upcoming = updatedList.filter(
+          (m) => m.status === "Upcoming Match"
+        );
 
-        const previousMatch =
-          previous.at(-1) ?? { id: 'previous', status: 'Previous Match', isEmpty: true };
-        const currentMatch =
-          current[0] ?? { id: 'current', status: 'Current Match', isEmpty: true };
-        const upcomingMatch =
-          upcoming[0] ?? { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
+        const previousMatch = previous.at(-1) ?? {
+          id: "previous",
+          status: "Previous Match",
+          isEmpty: true,
+        };
+        const currentMatch = current[0] ?? {
+          id: "current",
+          status: "Current Match",
+          isEmpty: true,
+        };
+        const upcomingMatch = upcoming[0] ?? {
+          id: "upcoming",
+          status: "Upcoming Match",
+          isEmpty: true,
+        };
 
         return [previousMatch, currentMatch, upcomingMatch];
       });
@@ -101,15 +125,16 @@ const Dashboard = ({ selectedSport }) => {
       }
     };
 
-    socket.on('matchUpdated', handleMatchUpdate);
+    socket.on("matchUpdated", handleMatchUpdate);
 
     return () => {
-      socket.off('matchUpdated', handleMatchUpdate);
+      socket.off("matchUpdated", handleMatchUpdate);
     };
   }, [selectedSport, selectedMatch]);
 
   if (isLoading) return <div className="text-white">Loading matches...</div>;
-  if (isError) return <div className="text-red-500">Error loading matches.</div>;
+  if (isError)
+    return <div className="text-red-500">Error loading matches.</div>;
 
   return (
     <div className="w-full bg-[#0f1125] rounded-xl px-6 pt-3 pb-6 mt-5">
@@ -123,9 +148,7 @@ const Dashboard = ({ selectedSport }) => {
           onSelect={(match) => setSelectedMatch(match)}
           selectedMatch={selectedMatch}
         />
-        {selectedMatch && (
-          <MatchDisplay selectedMatch={selectedMatch} />
-        )}
+        {selectedMatch && <MatchDisplay selectedMatch={selectedMatch} />}
       </div>
     </div>
   );
