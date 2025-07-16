@@ -5,13 +5,14 @@ import Hero from "../hero/Hero.jsx";
 import Main from "../components/PlayerDetails/Main.jsx";
 import Schedule from "../components/Schedule/Schedule.jsx";
 import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
-
+import { useSelector } from "react-redux";
+import AdminMenu from "./Admin/AdminMenu.jsx";
 const HomePage = () => {
   const dashboardRef = useRef(null);
   const teamsRef = useRef(null);
   const scheduleRef = useRef(null);
   const LeaderboardRef = useRef(null);
-
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <>
       <NavBar
@@ -41,6 +42,7 @@ const HomePage = () => {
       <div ref={LeaderboardRef}>
         <Leaderboard />
       </div>
+      {userInfo.isAdmin && <AdminMenu />}
     </>
   );
 };
