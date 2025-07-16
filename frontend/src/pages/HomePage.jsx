@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import NavBar from "../pages/Auth/Navigation.jsx";
 import Dashboard from "../components/Dashboard/Dashboard.jsx";
 import Hero from "../hero/Hero.jsx";
 import Main from "../components/PlayerDetails/Main.jsx";
 import Schedule from "../components/Schedule/Schedule.jsx";
 import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
+import { useSport } from "../Context/SportContext";
 
 const HomePage = () => {
-  const [selectedSport, setSelectedSport] = useState("Athletics");
+  const { selectedSport } = useSport();
 
   const dashboardRef = useRef(null);
   const teamsRef = useRef(null);
@@ -30,7 +31,7 @@ const HomePage = () => {
           LeaderboardRef.current?.scrollIntoView({ behavior: "smooth" })
         }
       />
-      <Hero selectedSport={selectedSport} setSelectedSport={setSelectedSport} />
+      <Hero /> {/* ✅ Props removed */}
       <div className="mt-40" ref={dashboardRef}>
         <Dashboard selectedSport={selectedSport} />
       </div>

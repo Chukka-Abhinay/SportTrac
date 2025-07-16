@@ -25,9 +25,14 @@ const Dashboard = ({ selectedSport }) => {
 
   // ✅ Organize matches on load from API
   useEffect(() => {
-    if (apiMatches && apiMatches.length > 0) {
+    if (
+      apiMatches &&
+      apiMatches.length > 0 &&
+      selectedSport &&
+      selectedSport.name
+    ) {
       const sportMatches = apiMatches.filter(
-        (m) => m.sport?.name === selectedSport
+        (m) => m.sport?.name === selectedSport.name
       );
 
       const categorized = sportMatches.map((m) => ({
@@ -35,46 +40,65 @@ const Dashboard = ({ selectedSport }) => {
         status: getMatchType(m),
       }));
 
-      const previous = categorized.filter((m) => m.status === 'Previous Match');
-      const current = categorized.filter((m) => m.status === 'Current Match');
-      const upcoming = categorized.filter((m) => m.status === 'Upcoming Match');
+      const previous = categorized.filter(
+        (m) => m.status === 'Previous Match'
+      );
+      const current = categorized.filter(
+        (m) => m.status === 'Current Match'
+      );
+      const upcoming = categorized.filter(
+        (m) => m.status === 'Upcoming Match'
+      );
 
       const previousMatch =
-        previous.at(-1) ?? { id: 'previous', status: 'Previous Match', isEmpty: true };
+        previous.at(-1) ??
+        { id: 'previous', status: 'Previous Match', isEmpty: true };
       const currentMatch =
-        current[0] ?? { id: 'current', status: 'Current Match', isEmpty: true };
+        current[0] ??
+        { id: 'current', status: 'Current Match', isEmpty: true };
       const upcomingMatch =
-        upcoming[0] ?? { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
+        upcoming[0] ??
+        { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
 
       const ordered = [previousMatch, currentMatch, upcomingMatch];
       setOrderedMatches(ordered);
 
-      setSelectedMatch(current[0] ?? previous.at(-1) ?? upcoming[0] ?? currentMatch);
+      setSelectedMatch(
+        current[0] ??
+          previous.at(-1) ??
+          upcoming[0] ??
+          currentMatch
+      );
     }
   }, [apiMatches, selectedSport]);
 
   // ✅ Log socket connection once
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("🟢 Connected to socket server with id:", socket.id);
+    socket.on('connect', () => {
+      console.log('🟢 Connected to socket server with id:', socket.id);
     });
 
     return () => {
-      socket.off("connect");
+      socket.off('connect');
     };
   }, []);
 
   // ✅ Listen for match updates
   useEffect(() => {
-    console.log("🧲 Setting up socket listener for matchUpdated");
+    console.log('🧲 Setting up socket listener for matchUpdated');
     const handleMatchUpdate = (updatedMatch) => {
-      console.log("🔥 Received real-time update for match:", updatedMatch);
-      if (updatedMatch?.sport?.name !== selectedSport) return;
+      console.log('🔥 Received real-time update for match:', updatedMatch);
+
+      if (
+        !selectedSport?.name ||
+        updatedMatch?.sport?.name !== selectedSport.name
+      )
+        return;
 
       const updatedStatus = getMatchType(updatedMatch);
 
       setOrderedMatches((prevMatches) => {
-        const matchesWithoutDummy = prevMatches.filter(m => !m.isEmpty);
+        const matchesWithoutDummy = prevMatches.filter((m) => !m.isEmpty);
 
         const updatedList = matchesWithoutDummy.map((m) =>
           m._id === updatedMatch._id
@@ -82,22 +106,34 @@ const Dashboard = ({ selectedSport }) => {
             : m
         );
 
-        const previous = updatedList.filter((m) => m.status === 'Previous Match');
-        const current = updatedList.filter((m) => m.status === 'Current Match');
-        const upcoming = updatedList.filter((m) => m.status === 'Upcoming Match');
+        const previous = updatedList.filter(
+          (m) => m.status === 'Previous Match'
+        );
+        const current = updatedList.filter(
+          (m) => m.status === 'Current Match'
+        );
+        const upcoming = updatedList.filter(
+          (m) => m.status === 'Upcoming Match'
+        );
 
         const previousMatch =
-          previous.at(-1) ?? { id: 'previous', status: 'Previous Match', isEmpty: true };
+          previous.at(-1) ??
+          { id: 'previous', status: 'Previous Match', isEmpty: true };
         const currentMatch =
-          current[0] ?? { id: 'current', status: 'Current Match', isEmpty: true };
+          current[0] ??
+          { id: 'current', status: 'Current Match', isEmpty: true };
         const upcomingMatch =
-          upcoming[0] ?? { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
+          upcoming[0] ??
+          { id: 'upcoming', status: 'Upcoming Match', isEmpty: true };
 
         return [previousMatch, currentMatch, upcomingMatch];
       });
 
       if (selectedMatch && selectedMatch._id === updatedMatch._id) {
-        setSelectedMatch({ ...updatedMatch, status: updatedStatus });
+        setSelectedMatch({
+          ...updatedMatch,
+          status: updatedStatus,
+        });
       }
     };
 
@@ -108,13 +144,19 @@ const Dashboard = ({ selectedSport }) => {
     };
   }, [selectedSport, selectedMatch]);
 
-  if (isLoading) return <div className="text-white">Loading matches...</div>;
-  if (isError) return <div className="text-red-500">Error loading matches.</div>;
+  if (isLoading)
+    return <div className="text-white">Loading matches...</div>;
+  if (isError)
+    return (
+      <div className="text-red-500">
+        Error loading matches.
+      </div>
+    );
 
   return (
     <div className="w-full bg-[#0f1125] rounded-xl px-6 pt-3 pb-6 mt-5">
       <h2 className="text-white text-[18px] pl-55 ml-[220px] mb-5 pb-3">
-        Dashboard - {selectedSport}
+        Dashboard - {selectedSport?.name || 'No Sport'}
       </h2>
 
       <div className="flex gap-6 h-full">
