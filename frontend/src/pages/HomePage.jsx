@@ -5,9 +5,12 @@ import Hero from "../hero/Hero.jsx";
 import Main from "../components/PlayerDetails/Main.jsx";
 import Schedule from "../components/Schedule/Schedule.jsx";
 import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
+import { useSport } from "../Context/SportContext";
 import { useSelector } from "react-redux";
 import AdminMenu from "./Admin/AdminMenu.jsx";
 const HomePage = () => {
+  const { selectedSport } = useSport();
+
   const dashboardRef = useRef(null);
   const teamsRef = useRef(null);
   const scheduleRef = useRef(null);
@@ -29,9 +32,9 @@ const HomePage = () => {
           LeaderboardRef.current?.scrollIntoView({ behavior: "smooth" })
         }
       />
-      <Hero />
-      <div ref={dashboardRef}>
-        <Dashboard />
+      <Hero /> {/* ✅ Props removed */}
+      <div className="mt-40" ref={dashboardRef}>
+        <Dashboard selectedSport={selectedSport} />
       </div>
       <div ref={teamsRef}>
         <Main />
@@ -42,7 +45,7 @@ const HomePage = () => {
       <div ref={LeaderboardRef}>
         <Leaderboard />
       </div>
-      {userInfo.isAdmin && <AdminMenu />}
+      {userInfo?.isAdmin && <AdminMenu />}
     </>
   );
 };

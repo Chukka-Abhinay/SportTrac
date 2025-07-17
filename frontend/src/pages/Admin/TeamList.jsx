@@ -10,16 +10,18 @@ import { useFetchSportsQuery } from "../../redux/api/sportApiSlice";
 
 const TeamList = () => {
   const { data: teams, refetch, isLoading, isError } = useAllTeamsQuery();
-
   const { data: sports } = useFetchSportsQuery();
 
   const navigate = useNavigate();
+
   useEffect(() => {
     refetch();
   }, [refetch]);
+
   const handleClick = () => {
     navigate("/");
   };
+
   return (
     <div className="p-4 pl-[10%] pr-[5%] items-center">
       <div className="flex justify-between pr-[20%]">
@@ -27,13 +29,13 @@ const TeamList = () => {
         <div className="flex flex-wrap justify-between gap-2">
           <Link
             to={`/admin/teams`}
-            className="bg-emerald-500 font-semibold hover:bg-emerald-600 rounded-full   px-4 pt-1  cursor-pointer hover:scale-110 text-white "
+            className="bg-emerald-500 font-semibold hover:bg-emerald-600 rounded-full px-4 pt-1 cursor-pointer hover:scale-110 text-white"
           >
             Create Team
           </Link>
           <button
             onClick={handleClick}
-            className="bg-emerald-400 font-semibold hover:bg-emerald-600 rounded-full  my-10 px-4 py-0 cursor-pointer hover:scale-110"
+            className="bg-emerald-400 font-semibold hover:bg-emerald-600 rounded-full my-10 px-4 py-0 cursor-pointer hover:scale-110"
           >
             Home
           </button>
@@ -41,16 +43,16 @@ const TeamList = () => {
       </div>
       <br />
       <hr className="w-[80%]" />
+
       {isLoading ? (
-        <Loader></Loader>
+        <Loader />
       ) : isError ? (
         <Message variant="danger">
-          {" "}
-          {isError?.data.message || isError.message}
+          {isError?.data?.message || isError.message}
         </Message>
       ) : (
         <div className="flex flex-col md:flex-row">
-          {/* <AdminMenu></AdminMenu> */}
+          {/* <AdminMenu /> */}
           <table className="w-full md:w-4/5 mx-auto">
             <thead>
               <tr>
@@ -62,42 +64,41 @@ const TeamList = () => {
               </tr>
             </thead>
             <tbody>
-              {teams.map((team) => (
+              {(teams || []).map((team) => (
                 <tr
-                  key={team._id}
-                  className=" hover:text-emerald-500 hover:scale-101"
+                  key={team?._id}
+                  className="hover:text-emerald-500 hover:scale-101"
                 >
                   <td className="px-4 py-2">
                     <Link
-                      to={`/admin/teams/${team._id}`}
+                      to={`/admin/teams/${team?._id}`}
                       className="cursor-pointer"
                     >
-                      {team._id}
+                      {team?._id}
                     </Link>
                   </td>
                   <td className="px-4 py-2">
                     <Link
-                      to={`/admin/teams/${team._id}`}
+                      to={`/admin/teams/${team?._id}`}
                       className="cursor-pointer"
                     >
-                      {team.name}
+                      {team?.name}
                     </Link>
-                    {/* <p>{team.name}</p> */}
                   </td>
                   <td className="px-4 py-2">
-                    {sports?.map((sport) => (
+                    {(sports || []).map((sport) => (
                       <div key={sport._id}>
-                        {/* {team.sport._id}
-                        {sport._id} */}
-                        {sport._id === team.sport._id && sport.name}
+                        {team?.sport?._id === sport._id && sport.name}
                       </div>
                     ))}
                   </td>
-                  <td className="px-4 pl-9 py-2">{team.players.length}</td>
+                  <td className="px-4 pl-9 py-2">
+                    {team?.players?.length || 0}
+                  </td>
                   <td className="px-4 py-2">
                     <Link
-                      to={`/admin/teams/update/${team._id}`}
-                      className="bg-red-500 font-semibold hover:bg-red-600 rounded-full  my-10 px-4 py-0 cursor-pointer hover:scale-110 text-white"
+                      to={`/admin/teams/update/${team?._id}`}
+                      className="bg-red-500 font-semibold hover:bg-red-600 rounded-full my-10 px-4 py-0 cursor-pointer hover:scale-110 text-white"
                     >
                       Edit
                     </Link>
@@ -111,4 +112,5 @@ const TeamList = () => {
     </div>
   );
 };
+
 export default TeamList;
