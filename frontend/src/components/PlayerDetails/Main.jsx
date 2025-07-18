@@ -4,7 +4,7 @@ import Scroller from "./scroller/Scroller";
 import PlayerDetails from "./PlayerDetails";
 import Loader from "../Loader";
 import "./main.css";
-import { useSport } from "../../Context/SportContext";
+import { useSport } from "../../context/SportContext";
 
 export default function Main() {
   const { selectedSport } = useSport();
