@@ -31,7 +31,7 @@ const HomePage = () => {
           LeaderboardRef.current?.scrollIntoView({ behavior: "smooth" })
         }
       />
-      <Hero /> {/* ✅ Props removed */}
+      <Hero /> 
       <div className="mt-40" ref={dashboardRef}>
         <Dashboard selectedSport={selectedSport} />
       </div>
@@ -42,7 +42,7 @@ const HomePage = () => {
         <Schedule />
       </div>
       <div ref={LeaderboardRef}>
-        <Leaderboard />
+        <Leaderboard selectedSport={selectedSport}/>
       </div>
     </>
   );
