@@ -15,3 +15,21 @@ body {
   background-color: #1e1e2f;
   color: white;
 }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2a2a3d; /* Match panel bg */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #af440b; /* Yellow or themed */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24; /* Lighter yellow on hover */
+}
