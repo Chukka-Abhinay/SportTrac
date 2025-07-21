@@ -150,7 +150,7 @@ const Dashboard = ({ selectedSport }) => {
     return <div className="text-red-500">Error loading matches.</div>;
 
   return (
-    <div className="w-full bg-[#0f1125] rounded-xl px-6 pt-3 pb-6 mt-15">
+    <div className="w-full bg-[#0f1125] rounded-xl px-6 pt-3 pb-4 mt-15">
       <h2 className="text-white text-[18px] pl-55 ml-[220px] mb-5 pb-3">
         Dashboard - {selectedSport?.name || "No Sport"}
       </h2>
