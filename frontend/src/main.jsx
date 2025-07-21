@@ -19,8 +19,10 @@ import CreateTeam from "./pages/Admin/CreateTeam.jsx";
 import MatchList from "./pages/Admin/MatchList.jsx";
 import CreateMatch from "./pages/Admin/CreateMatch.jsx";
 import MatchUpdate from "./pages/Admin/MatchUpdate.jsx";
+import UpdateScore from "./pages/Admin/UpdateScore.jsx";
 // import MatchUpdate from "./pages/Admin/matchUpdate.jsx";
 import { SportProvider } from "./Context/SportContext.jsx";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -41,6 +43,7 @@ const router = createBrowserRouter(
         <Route path="matchlist" element={<MatchList />}></Route>
         <Route path="matches" element={<CreateMatch />}></Route>
         <Route path="matches/:id" element={<MatchUpdate />} />
+        <Route path="matches/:id/score" element={<UpdateScore />} />
       </Route>
     </Route>
   )

@@ -6,7 +6,8 @@ import Main from "../components/PlayerDetails/Main.jsx";
 import Schedule from "../components/Schedule/Schedule.jsx";
 import Leaderboard from "../components/Leaderboard/Leaderboard.jsx";
 import { useSport } from "../Context/SportContext";
-
+import { useSelector } from "react-redux";
+import AdminMenu from "./Admin/AdminMenu.jsx";
 const HomePage = () => {
   const { selectedSport } = useSport();
 
@@ -14,7 +15,7 @@ const HomePage = () => {
   const teamsRef = useRef(null);
   const scheduleRef = useRef(null);
   const LeaderboardRef = useRef(null);
-
+  const { userInfo } = useSelector((state) => state.auth);
   return (
     <>
       <NavBar
@@ -44,6 +45,7 @@ const HomePage = () => {
       <div ref={LeaderboardRef}>
         <Leaderboard selectedSport={selectedSport}/>
       </div>
+      {userInfo?.isAdmin && <AdminMenu />}
     </>
   );
 };

@@ -62,6 +62,7 @@ const MatchList = () => {
                 <th className="px-4 py-2 text-left">LOCATION</th>
                 <th className="px-4 py-2 text-left">TIME</th>
                 <th className="px-4 py-2 text-left">EDIT</th>
+                <th className="px-4 py-2 text-left"></th>
               </tr>
             </thead>
             <tbody>
@@ -112,11 +113,23 @@ const MatchList = () => {
                   <td className="px-4 py-2">
                     <Link
                       to={`/admin/matches/${match._id}`}
-                      className="bg-red-500 font-semibold hover:bg-red-600 rounded-full  my-10 px-4 py-0 cursor-pointer hover:scale-110 text-white"
+                      className="bg-red-500 font-semibold hover:bg-red-600 rounded-full  my-10 px-4 py-1 cursor-pointer hover:scale-110 text-white"
                     >
                       Edit
                     </Link>
                   </td>
+                  {match?.calculatedStatus === "live" ? (
+                    <td className="px-4 py-2">
+                      <Link
+                        to={`/admin/matches/${match._id}/score`}
+                        className="bg-red-500 font-semibold hover:bg-red-600 rounded-full  my-10 px-4 py-1 cursor-pointer hover:scale-110 text-white"
+                      >
+                        Update Score
+                      </Link>
+                    </td>
+                  ) : (
+                    <td />
+                  )}
                 </tr>
               ))}
             </tbody>
