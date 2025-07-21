@@ -32,7 +32,7 @@ const HomePage = () => {
         }
       />
       <Hero /> 
-      <div className="mt-40" ref={dashboardRef}>
+      <div className="mt-40 pt-5" ref={dashboardRef}>
         <Dashboard selectedSport={selectedSport} />
       </div>
       <div ref={teamsRef}>
