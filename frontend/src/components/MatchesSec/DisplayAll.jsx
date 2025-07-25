@@ -77,7 +77,9 @@ const DisplayAll = () => {
               {selectedMatch.location}
             </p>
 
-            <p className="text-lg text-gray-300 hover:text-white transition duration-200">
+
+            <p 
+            className="text-lg text-gray-300 hover:text-white transition duration-200">
               <strong className="text-white">Duration:</strong>{' '}
               {selectedMatch.duration} mins
             </p>
