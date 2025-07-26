@@ -8,6 +8,7 @@ const sportSchema = new mongoose.Schema({
     maxLength: 32,
     unique: true,
   },
+  video: { type: String, trim: true },
 });
 
 export default mongoose.model("Sport", sportSchema);

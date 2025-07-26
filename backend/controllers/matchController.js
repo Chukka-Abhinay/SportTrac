@@ -6,6 +6,7 @@ import Match from "../models/Match.js";
 const createMatch = asyncHandler(async (req, res) => {
   try {
     const { teamA, teamB, sport, location, scheduledTime } = req.fields;
+
     switch (true) {
       case !teamA || !teamB || teamA === "undefined" || teamB === "undefined":
         return res.json({ error: "Team is required or invalid" });
@@ -62,13 +63,22 @@ const getMatchById = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(404).json({ error: "Team not found" });
+    res.status(404).json({ error: "Match not found" });
   }
 });
 
 const updateMatchById = asyncHandler(async (req, res) => {
   try {
-    const { teamA, teamB, sport, location, scheduledTime } = req.fields;
+    const { teamA, teamB, sport, location, scheduledTime, duration } = req.fields;
+
+    const scoreTeamA = Number(req.fields["score[teamA]"]);
+    const scoreTeamB = Number(req.fields["score[teamB]"]);
+
+    const score = {
+      teamA: isNaN(scoreTeamA) ? 0 : scoreTeamA,
+      teamB: isNaN(scoreTeamB) ? 0 : scoreTeamB,
+    };
+
     switch (true) {
       case !teamA || !teamB || teamA === "undefined" || teamB === "undefined":
         return res.json({ error: "Team is required or invalid" });
@@ -79,16 +89,31 @@ const updateMatchById = asyncHandler(async (req, res) => {
       case !scheduledTime:
         return res.json({ error: "Scheduled Time is required" });
     }
+
     const match = await Match.findByIdAndUpdate(
       req.params.id,
-      { ...req.fields },
+      {
+        teamA,
+        teamB,
+        sport,
+        location,
+        scheduledTime,
+        duration: Number(duration),
+        score,
+      },
       { new: true }
-    );
-    await match.save();
+    ).populate("teamA teamB sport");
+
+    // ✅ Emit real-time update
+    // const io = req.app.get("io");
+    console.log("Emmitting matchUpdated :", match._id);
+    // io.emit("matchUpdated", match)
+    req.io?.emit("matchUpdated", match)
+
     res.json(match);
   } catch (error) {
     console.error(error);
-    res.status(400).json(error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 const deleteMatchById = asyncHandler(async (req, res) => {

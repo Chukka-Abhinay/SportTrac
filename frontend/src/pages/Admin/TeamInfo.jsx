@@ -10,6 +10,7 @@ import {
   useUpdatePlayerMutation,
   useDeleteTeamMutation,
 } from "../../redux/api/teamApiSlice";
+import { useUploadTeamLogoMutation } from "../../redux/api/teamApiSlice";
 import { useFetchSportsQuery } from "../../redux/api/sportApiSlice";
 import Loader from "../../components/Loader";
 import Modal from "../../components/Modal";
@@ -27,22 +28,28 @@ const TeamInfo = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [avatar, setAvatar] = useState("");
   const [player, setPlayer] = useState({
     name: "",
     position: "",
     number: "",
     age: "",
     nationality: "",
+    avatar: "",
   });
   const [deleteTeam] = useDeleteTeamMutation();
   const [addPlayer] = useAddPlayerMutation();
   const [updatePlayer] = useUpdatePlayerMutation();
   const [deletePlayer] = useDeletePlayerMutation();
-
+  const [uploadPlayerAvatar] = useUploadTeamLogoMutation();
   const handleAddPlayer = async (e) => {
     e.preventDefault();
     try {
-      await addPlayer({ teamId: id, playerData: player }).unwrap();
+      await addPlayer({
+        teamId: id,
+        playerData: { ...player, avatar },
+      }).unwrap();
+
       toast.success("Player added");
       setPlayer({
         name: "",
@@ -50,6 +57,7 @@ const TeamInfo = () => {
         number: "",
         age: "",
         nationality: "",
+        avatar: "",
       });
       handleCloseAddModal();
       refetch();
@@ -57,14 +65,25 @@ const TeamInfo = () => {
       toast.error("Add failed");
     }
   };
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
 
+    try {
+      const res = await uploadPlayerAvatar(formData).unwrap();
+      toast.success("Player avatar uploaded successfully", { autoClose: 2000 });
+      setAvatar(res.image);
+    } catch (error) {
+      toast.error("Avatar upload failed", { autoClose: 2000 });
+    }
+  };
   const handleUpdatePlayer = async (e) => {
     e.preventDefault();
     try {
       await updatePlayer({
         teamId: id,
         playerId: selectedPlayer._id,
-        playerData: player,
+        playerData: { ...player, avatar },
       }).unwrap();
       toast.success("Player updated");
 
@@ -88,13 +107,27 @@ const TeamInfo = () => {
   };
   const handleCloseAddModal = () => {
     setModalVisible(false);
-    setPlayer({ name: "", position: "", number: "", age: "", nationality: "" });
+    setPlayer({
+      name: "",
+      position: "",
+      number: "",
+      age: "",
+      nationality: "",
+      avatar: "",
+    });
   };
 
   const handleCloseEditModal = () => {
     console.log("edit close is called");
     setEditModalVisible(false);
-    setPlayer({ name: "", position: "", number: "", age: "", nationality: "" });
+    setPlayer({
+      name: "",
+      position: "",
+      number: "",
+      age: "",
+      nationality: "",
+      avatar: "",
+    });
     setSelectedPlayer(null);
   };
   const handleDelete = async () => {
@@ -257,7 +290,10 @@ const TeamInfo = () => {
         <PlayerForm
           player={player}
           setPlayer={setPlayer}
+          avatar={avatar}
+          setAvatar={setAvatar}
           handleSubmit={handleAddPlayer}
+          uploadFileHandler={uploadFileHandler}
         />
       </Modal>
 
@@ -265,9 +301,12 @@ const TeamInfo = () => {
         <PlayerForm
           player={player}
           setPlayer={setPlayer}
+          avatar={avatar}
+          setAvatar={setAvatar}
           handleSubmit={handleUpdatePlayer}
           buttonText="Update"
           handleDelete={handleDeletePlayer}
+          uploadFileHandler={uploadFileHandler}
         />
       </Modal>
     </div>

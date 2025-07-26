@@ -35,11 +35,13 @@ const DisplayAll = () => {
           {filteredMatches.map((match) => (
             <div
               key={match._id}
-              className={cursor-pointer p-4 rounded-lg mb-3 border border-transparent transition-all duration-300 ease-in-out group ${
+              className=`{cursor-pointer p-4 rounded-lg mb-3 border border-transparent transition-all duration-300 ease-in-out group ${
                 selectedMatch?._id === match._id
                   ? "bg-orange-400  text-black font-bold shadow-inner"
                   : "hover:bg-[#3b3b50] hover:border-yellow-400"
-              }}
+
+              }`}
+
               onClick={() => setSelectedMatch(match)}
             >
               <p className="text-md font-medium group-hover:text-yellow-300">

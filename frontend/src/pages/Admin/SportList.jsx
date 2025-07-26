@@ -5,6 +5,7 @@ import {
   useUpdateSportMutation,
   useDeleteSportMutation,
   useFetchSportsQuery,
+  useUploadVideoMutation,
 } from "../../redux/api/sportApiSlice";
 
 import { toast } from "react-toastify";
@@ -14,19 +15,34 @@ import Modal from "../../components/Modal";
 const SportList = () => {
   const { data: sports, refetch } = useFetchSportsQuery();
   const [name, setName] = useState("");
+  const [video, setVideo] = useState("");
   const [selectedSport, setSelectedSport] = useState(null);
   const [updatingName, setUpdatingName] = useState("");
+  const [updatingVideo, setUpdatingVideo] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const [createSport] = useCreateSportMutation();
   const [updateSport] = useUpdateSportMutation();
   const [deleteSport] = useDeleteSportMutation();
-
+  const [uploadVideo] = useUploadVideoMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
     refetch();
   }, [refetch]);
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("video", e.target.files[0]);
+
+    try {
+      const res = await uploadVideo(formData).unwrap();
+      toast.success("Video uploaded successfully", { autoClose: 2000 });
+      setVideo(res.video);
+      setUpdatingVideo(res.video);
+    } catch (error) {
+      toast.error("Video upload failed", { autoClose: 2000 });
+    }
+  };
 
   const handleCreateSport = async (e) => {
     e.preventDefault();
@@ -37,12 +53,14 @@ const SportList = () => {
     }
 
     try {
-      const result = await createSport({ name }).unwrap();
+      const result = await createSport({ name, video }).unwrap();
       if (result.error) {
         toast.error(result.error);
       } else {
         setName("");
+        setVideo("");
         toast.success(`${result.name} is created.`);
+
         refetch();
       }
     } catch (error) {
@@ -64,6 +82,7 @@ const SportList = () => {
         sportId: selectedSport._id,
         updatedSport: {
           name: updatingName,
+          video: updatingVideo,
         },
       }).unwrap();
 
@@ -72,7 +91,9 @@ const SportList = () => {
       } else {
         toast.success(`${result.name} is updated`);
         setSelectedSport(null);
+        setVideo("");
         setUpdatingName("");
+        setUpdatingVideo("");
         setModalVisible(false);
         refetch();
       }
@@ -118,7 +139,10 @@ const SportList = () => {
         <SportForm
           value={name}
           setValue={setName}
+          video={video}
+          setVideo={setVideo}
           handleSubmit={handleCreateSport}
+          uploadFileHandler={uploadFileHandler}
         />
         <br />
         <hr />
@@ -133,6 +157,7 @@ const SportList = () => {
                     setModalVisible(true);
                     setSelectedSport(sport);
                     setUpdatingName(sport.name);
+                    setUpdatingVideo(sport.video);
                   }
                 }}
               >
@@ -146,7 +171,10 @@ const SportList = () => {
           <SportForm
             value={updatingName}
             setValue={(value) => setUpdatingName(value)}
+            video={updatingVideo}
+            setVideo={(video) => setUpdatingVideo(video)}
             handleSubmit={handleUpdateSport}
+            uploadFileHandler={uploadFileHandler}
             buttonText="Update"
             handleDelete={handleDeleteSport}
           />

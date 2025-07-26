@@ -1,29 +1,22 @@
-// routes/matchRoutes.js
 import express from "express";
-import formidable from "express-formidable";
 import {
-  createMatch,
-  getAllMatches,
-  // updateScore,
-  getMatchById,
   updateMatchById,
+  createMatch,
   deleteMatchById,
+  getAllMatches,
+  getMatchById,
 } from "../controllers/matchController.js";
-import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
+import formidableMiddleware from "express-formidable";
+// import { io } from "../index.js"; // import io here
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(getAllMatches)
-  .post(authenticate, authorizeAdmin, formidable(), createMatch);
+router.put("/:id", formidableMiddleware(), updateMatchById);
 
-// Update match score - only for authenticated admins
-router
-  .route("/:id")
-  .get(getMatchById)
-  .put(authenticate, authorizeAdmin, formidable(), updateMatchById)
-  .delete(authenticate, authorizeAdmin, deleteMatchById);
-// router.put("/:id/score", authenticate, authorizeAdmin, updateScore);
+// other routes
+router.get("/", getAllMatches);
+router.post("/", formidableMiddleware(), createMatch);
+router.get("/:id", getMatchById);
+router.delete("/:id", deleteMatchById);
 
 export default router;
