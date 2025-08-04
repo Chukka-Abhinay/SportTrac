@@ -1,6 +1,6 @@
 // backend/routes/uploadVideoRoutes.js
 import express from "express";
-import uploadMedia from "../middleware/mediaUploadMiddleware.js";
+import uploadMedia from "../middlewares/mediaUploadMiddleware.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 
 const router = express.Router();
