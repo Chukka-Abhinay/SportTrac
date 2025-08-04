@@ -259,7 +259,7 @@ const TeamInfo = () => {
                     {/* <td className="px-4 py-2 border border-emerald-500">
                       {player.avatar ? (
                         <img
-                          src={`http://localhost:5000/${player.avatar}`}
+                          src={player.avatar}
                           alt={player.name}
                           className="w-10 h-10 rounded-full mx-auto"
                         />

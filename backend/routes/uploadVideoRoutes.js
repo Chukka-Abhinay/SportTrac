@@ -1,36 +1,34 @@
-// routes/videoUploadRoute.js
-import path from "path";
+// backend/routes/uploadVideoRoutes.js
 import express from "express";
-import multer from "multer";
+import uploadMedia from "../middleware/mediaUploadMiddleware.js";
+import cloudinary from "../config/cloudinaryConfig.js";
 
 const router = express.Router();
-const uploadPath = "/opt/render/project/uploads/videos";
 
-// ✅ Storage config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadPath),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${Date.now()}${ext}`);
-  },
-});
+router.post("/", uploadMedia.single("video"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No video file provided." });
+    }
 
-// ✅ File filter
-const fileFilter = (req, file, cb) => {
-  const isValidExt = /\.(mp4|mov|avi|mkv|webm)$/i.test(file.originalname);
-  const isValidMime = /video\/(mp4|quicktime|x-msvideo|x-matroska|webm)/.test(file.mimetype);
-  cb(isValidExt && isValidMime ? null : new Error("Videos only"), isValidExt && isValidMime);
-};
+    // Upload the file buffer to Cloudinary
+    const result = await cloudinary.uploader.upload(
+      `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`,
+      {
+        resource_type: "video",
+        folder: "your_project_videos", // Change this to your desired folder name in Cloudinary
+      }
+    );
 
-const upload = multer({ storage, fileFilter });
-
-router.post("/", upload.single("video"), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: "No video file provided" });
-
-  res.status(200).json({
-    message: "Video uploaded successfully",
-    video: `/uploads/videos/${req.file.filename}`,
-  });
+    res.status(200).json({
+      message: "Video uploaded successfully",
+      video: result.secure_url, // Return the Cloudinary URL
+      public_id: result.public_id,
+    });
+  } catch (error) {
+    console.error("❌ Cloudinary Video Upload Error:", error);
+    res.status(500).json({ message: error.message || "Video upload failed." });
+  }
 });
 
 export default router;

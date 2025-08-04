@@ -1,4 +1,4 @@
-import { TEAM_URL, UPLOAD_URL } from "../features/constants";
+import { TEAM_URL, UPLOAD_IMAGE_URL } from "../features/constants";
 
 import { apiSlice } from "./apiSlice";
 
@@ -36,7 +36,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
     }),
     uploadTeamLogo: builder.mutation({
       query: (data) => ({
-        url: `${UPLOAD_URL}`,
+        url: `${UPLOAD_IMAGE_URL}`,
         method: "POST",
         body: data,
       }),
