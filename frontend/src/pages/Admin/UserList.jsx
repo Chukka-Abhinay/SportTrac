@@ -8,7 +8,7 @@ import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from "../../redux/api/usersApiSlice";
-import Message from "../../components/message";
+import Message from "../../components/Message";
 import { useNavigate } from "react-router";
 const UserList = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();

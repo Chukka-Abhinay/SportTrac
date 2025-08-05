@@ -4,10 +4,11 @@ import moment from "moment";
 import { useAllTeamsQuery } from "../../redux/api/teamApiSlice";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-import Message from "../../components/message";
+import Message from "../../components/Message";
 import { useFetchSportsQuery } from "../../redux/api/sportApiSlice";
 // import AdminMenu from "./AdminMenu";
 
+//
 const TeamList = () => {
   const { data: teams, refetch, isLoading, isError } = useAllTeamsQuery();
   const { data: sports } = useFetchSportsQuery();
