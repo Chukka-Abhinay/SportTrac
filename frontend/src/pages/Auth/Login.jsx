@@ -36,6 +36,7 @@ const Login = () => {
       dispatch(setCredentials({ ...res }));
       const username = res.username;
       console.log(username);
+      localStorage.setItem("token", res.token);
       navigate(`/`);
     } catch (error) {
       toast.error(error?.data?.message || error.message);
