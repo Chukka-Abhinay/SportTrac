@@ -11,7 +11,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://sport-trac-pg7uu1w3j-chukka-abhinays-projects.vercel.app",
+    origin: "https://sport-trac-pxm25v2k5-chukka-abhinays-projects.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   },

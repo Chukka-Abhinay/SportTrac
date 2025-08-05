@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 // ✅ For production, change `origin: "*"` to your Vercel frontend URL
-app.use(cors({ origin: "https://sport-trac-pg7uu1w3j-chukka-abhinays-projects.vercel.app", credentials: true })); 
+app.use(cors({ origin: "https://sport-trac-pxm25v2k5-chukka-abhinays-projects.vercel.app", credentials: true })); 
 
 app.use((req, res, next) => {
   req.io = app.get("io");
