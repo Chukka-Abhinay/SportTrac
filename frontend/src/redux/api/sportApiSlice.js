@@ -8,6 +8,7 @@ export const sportApiSlice = apiSlice.injectEndpoints({
         url: `${SPORT_URL}`,
         method: "POST",
         body: newSport,
+        credentials: 'include'
       }),
     }),
 
@@ -16,6 +17,7 @@ export const sportApiSlice = apiSlice.injectEndpoints({
         url: `${SPORT_URL}/${sportId}`,
         method: "PUT",
         body: updatedSport,
+        credentials: 'include'
       }),
       invalidatesTags: ["Sport"],
     }),
@@ -24,6 +26,7 @@ export const sportApiSlice = apiSlice.injectEndpoints({
       query: (sportId) => ({
         url: `${SPORT_URL}/${sportId}`,
         method: "DELETE",
+        credentials: 'include'
       }),
     }),
 
@@ -31,12 +34,14 @@ export const sportApiSlice = apiSlice.injectEndpoints({
       query: () => `${SPORT_URL}/sports`,
       providesTags: ["Sport"],
       keepUnusedDataFor: 5,
+      // credentials: 'include'
     }),
     uploadVideo: builder.mutation({
       query: (data) => ({
         url: `${UPLOAD_VIDEO_URL}`,
         method: "POST",
         body: data,
+        credentials: 'include'
       }),
     }),
   }),

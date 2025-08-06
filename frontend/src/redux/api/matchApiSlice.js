@@ -8,6 +8,7 @@ export const matchApiSlice = apiSlice.injectEndpoints({
         url: `${MATCH_URL}`,
         method: "POST",
         body: data,
+        credentials: "include"
       }),
       invalidatesTags: ["Match"],
     }),
@@ -22,6 +23,7 @@ export const matchApiSlice = apiSlice.injectEndpoints({
         url: `${MATCH_URL}/${matchId}`,
         method: "PUT",
         body: data,
+        credentials: 'include'
       }),
       invalidatesTags: ["Match"],
     }),
@@ -29,6 +31,7 @@ export const matchApiSlice = apiSlice.injectEndpoints({
       query: (matchId) => ({
         url: `${MATCH_URL}/${matchId}`,
         method: "DELETE",
+        credentials: 'include'
       }),
       providesTags: ["Match"],
     }),

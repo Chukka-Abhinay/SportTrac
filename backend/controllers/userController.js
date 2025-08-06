@@ -60,14 +60,14 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid password");
   }
 
-  const token = generateToken(res, existingUser._id);
+  generateToken(res, existingUser._id);
 
   res.status(200).json({
     _id: existingUser._id,
     username: existingUser.username,
     email: existingUser.email,
     isAdmin: existingUser.isAdmin,
-    token, // ✅ Include token here too
+    // token, // ✅ Include token here too
   });
 });
 
@@ -75,9 +75,10 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/logout
 // @access  Private
 const logoutCurrentUser = asyncHandler(async (req, res) => {
-  res.cookie("jwt", "", {
+  res.clearCookie("jwt", {
     httpOnly: true,
-    expires: new Date(0),
+    sameSite: "strict",
+    secure: process.env.NODE_ENV !== "development",
   });
   res.status(200).json({ message: "Logged out successfully" });
 });
