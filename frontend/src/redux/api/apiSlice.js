@@ -3,6 +3,7 @@ import { BASE_URL } from "../features/constants";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
+  credentials: 'include',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token");
     if (token) {
