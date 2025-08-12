@@ -1,21 +1,22 @@
+// backend/routes/matchRoutes.js (Corrected)
 import express from "express";
 import {
-  updateMatchById,
-  createMatch,
-  deleteMatchById,
-  getAllMatches,
-  getMatchById,
+  updateMatchById,
+  createMatch,
+  deleteMatchById,
+  getAllMatches,
+  getMatchById,
 } from "../controllers/matchController.js";
 import formidableMiddleware from "express-formidable";
-// import { io } from "../index.js"; // import io here
 
 const router = express.Router();
 
+// ✅ Apply formidable middleware to both POST and PUT routes
+router.post("/", formidableMiddleware(), createMatch);
 router.put("/:id", formidableMiddleware(), updateMatchById);
 
-// other routes
+// other routes (no change needed here)
 router.get("/", getAllMatches);
-router.post("/", formidableMiddleware(), createMatch);
 router.get("/:id", getMatchById);
 router.delete("/:id", deleteMatchById);
 
