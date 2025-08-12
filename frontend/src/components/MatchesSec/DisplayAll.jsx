@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useGetAllMatchesQuery } from "../../redux/api/matchApiSlice";
-import { useSport } from "../../context/SportContext"; // ✅ Import the context
+import { useSport } from "../../Context/SportContext"; // ✅ Import the context
 
 const DisplayAll = () => {
   const { data: matches, isLoading, isError, error } = useGetAllMatchesQuery();

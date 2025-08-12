@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "./Scroller.css";
+import "./scroller.css";
 
 export default function Scroller({ items, selected, onSelectTeam }) {
   const containerRef = useRef(null);

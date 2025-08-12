@@ -3,11 +3,12 @@ import { useEffect } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-import Message from "../../components/message";
+import Message from "../../components/Message";
 import { useGetAllMatchesQuery } from "../../redux/api/matchApiSlice";
 import { useFetchSportsQuery } from "../../redux/api/sportApiSlice";
 import { useGetTeamByIdQuery } from "../../redux/api/teamApiSlice";
 // import AdminMenu from "./AdminMenu";
+
 
 const MatchList = () => {
   const { data: matches, refetch, isLoading, error } = useGetAllMatchesQuery();

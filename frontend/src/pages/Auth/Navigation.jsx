@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../redux/api/usersApiSlice";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { logout } from "../../redux/features/auth/authSlice";
+import "tailwindcss"
 const NavBar = ({
   scrollToDashboard,
   scrollToTeams,

@@ -24,6 +24,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         url: `${TEAM_URL}`,
         method: "POST",
         body: data,
+        credentials: 'include'
       }),
       invalidatesTags: ["Team"],
     }),
@@ -32,6 +33,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         url: `${TEAM_URL}/${teamId}`,
         method: "PUT",
         body: formData,
+        credentials: 'include'
       }),
     }),
     uploadTeamLogo: builder.mutation({
@@ -39,12 +41,14 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         url: `${UPLOAD_IMAGE_URL}`,
         method: "POST",
         body: data,
+        credentials: 'include'
       }),
     }),
     deleteTeam: builder.mutation({
       query: (teamId) => ({
         url: `${TEAM_URL}/${teamId}`,
         method: "DELETE",
+        credentials: 'include'
       }),
       providesTags: ["Team"],
     }),
@@ -53,6 +57,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         url: `${TEAM_URL}/${teamId}/players`,
         method: "POST",
         body: playerData,
+        credentials: 'include'
       }),
       invalidatesTags: ["Team"],
     }),
@@ -61,6 +66,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
         url: `${TEAM_URL}/${teamId}/players/${playerId}`,
         method: "PUT",
         body: playerData,
+        credentials: 'include'
       }),
       invalidatesTags: ["Team"],
     }),
@@ -68,6 +74,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
       query: ({ teamId, playerId }) => ({
         url: `${TEAM_URL}/${teamId}/players/${playerId}`,
         method: "DELETE",
+        credentials: 'include'
       }),
       invalidatesTags: ["Team"],
     }),

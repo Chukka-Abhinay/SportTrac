@@ -1,78 +1,99 @@
 import User from "../models/User.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
 import bcrypt from "bcryptjs";
-import createToken from "../utils/createToken.js";
+import generateToken from "../utils/createToken.js";
 
+// @desc    Register new user
+// @route   POST /api/users
+// @access  Public
 const createUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
+
   if (!username || !email || !password) {
+    res.status(400);
     throw new Error("Please fill all the inputs");
   }
 
   const userExists = await User.findOne({ email });
-  if (userExists) res.status(400).send("User already exists");
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const newUser = new User({ username, email, password: hashedPassword });
-  try {
-    await newUser.save();
-    createToken(res, newUser._id);
-    res.status(201).json({
-      _id: newUser._id,
-      username: newUser.username,
-      email: newUser.email,
-      isAdmin: newUser.isAdmin,
-    });
-  } catch (error) {
-    res.status(400);
-    throw new Error("Invalid user data");
-  }
+
+  await newUser.save();
+  const token = generateToken(res, newUser._id);
+
+  res.status(201).json({
+    _id: newUser._id,
+    username: newUser.username,
+    email: newUser.email,
+    isAdmin: newUser.isAdmin,
+    token, // ✅ Send token in response
+  });
 });
 
+// @desc    Login user
+// @route   POST /api/users/login
+// @access  Public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
+    res.status(400);
     throw new Error("Enter all credentials");
   }
+
   const existingUser = await User.findOne({ email });
-  if (!existingUser) res.status(400).send("User doesn't exists");
-  if (existingUser) {
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-
-    if (isPasswordValid) {
-      createToken(res, existingUser._id);
-
-      res.status(201).json({
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-        isAdmin: existingUser.isAdmin,
-      });
-      return;
-    } else {
-      res.status(400);
-      throw new Error("Invalid password");
-    }
+  if (!existingUser) {
+    res.status(400);
+    throw new Error("User doesn't exist");
   }
-});
 
-const logoutCurrentUser = asyncHandler(async (req, res) => {
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
+  const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+
+  if (!isPasswordValid) {
+    res.status(400);
+    throw new Error("Invalid password");
+  }
+
+  generateToken(res, existingUser._id);
+
+  res.status(200).json({
+    _id: existingUser._id,
+    username: existingUser.username,
+    email: existingUser.email,
+    isAdmin: existingUser.isAdmin,
+    // token, // ✅ Include token here too
   });
-  res.status(200).json({ message: "logged out successfully" });
 });
 
+// @desc    Logout user
+// @route   POST /api/users/logout
+// @access  Private
+const logoutCurrentUser = asyncHandler(async (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV !== "development",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json(users);
 });
 
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
 const getCurrentUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
@@ -87,47 +108,58 @@ const getCurrentUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update own profile
+// @route   PUT /api/users/profile
+// @access  Private
 const updateCurrentUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  if (user) {
-    user.username = req.body.username || user.username;
-    user.email = req.body.email || user.email;
-
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      user.password = hashedPassword;
-    }
-    const updatedUser = await user.save();
-
-    res.json({
-      _id: updatedUser._id,
-      username: updatedUser.username,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
-  } else {
+  if (!user) {
     res.status(404);
     throw new Error("User not found");
   }
+
+  user.username = req.body.username || user.username;
+  user.email = req.body.email || user.email;
+
+  if (req.body.password) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    user.password = hashedPassword;
+  }
+
+  const updatedUser = await user.save();
+
+  res.json({
+    _id: updatedUser._id,
+    username: updatedUser.username,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+  });
 });
 
+// @desc    Delete user by ID
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
 const deleteUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
-  if (user) {
-    if (user.isAdmin) {
-      res.status(400);
-      throw new Error("Cannot delete admin user");
-    }
-    await User.deleteOne({ _id: user._id });
-    res.json({ message: "User removed" });
-  } else {
+  if (!user) {
     res.status(404);
     throw new Error("User not found");
   }
+
+  if (user.isAdmin) {
+    res.status(400);
+    throw new Error("Cannot delete admin user");
+  }
+
+  await User.deleteOne({ _id: user._id });
+  res.json({ message: "User removed" });
 });
 
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
 const getUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
@@ -138,24 +170,29 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Update user by ID
+// @route   PUT /api/users/:id
+// @access  Private/Admin
 const updateUserById = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-  if (user) {
-    user.username = req.body.username || user.username;
-    user.email = req.body.email || user.email;
-    user.isAdmin = Boolean(req.body.isAdmin);
 
-    const updatedUser = await user.save();
-    res.json({
-      _id: updatedUser._id,
-      username: updatedUser.username,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
-  } else {
+  if (!user) {
     res.status(404);
     throw new Error("User not found");
   }
+
+  user.username = req.body.username || user.username;
+  user.email = req.body.email || user.email;
+  user.isAdmin = Boolean(req.body.isAdmin);
+
+  const updatedUser = await user.save();
+
+  res.json({
+    _id: updatedUser._id,
+    username: updatedUser.username,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+  });
 });
 
 export {
